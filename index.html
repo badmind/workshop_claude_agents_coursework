@@ -2382,15 +2382,31 @@
     await new Promise(r => setTimeout(r, 500));
     fill.style.width = '70%'; txt.textContent = 'Изпращане чрез EmailJS...';
 
+    // Grade descriptions per SoftUni criteria
+    const gradeInfo = {
+      '2.00': 'Задачата не е изпълнена или съдържа сериозни пропуски. Проблемът не е формулиран ясно, решението липсва или е неприложимо, а уебстраницата не отговаря на минималните изисквания.',
+      '3.00': 'Задачата е изпълнена частично. Има формулиран проблем и базово решение, но промптовете са слаби, итерацията липсва, а страницата е непълна или трудночетима.',
+      '4.00': 'Задачата е изпълнена задоволително. Проблемът е описан, решението е логично, но страницата е базова и не демонстрира ефективно използване на AI инструментите.',
+      '5.00': '✦ Задачата е изпълнена добре. Ясен проблем, приложимо AI решение, качествени промптове и завършена страница с необходимите секции. Дава право на Сертификат от SoftUni.',
+      '5.50': '✦ Задачата е изпълнена много добре. Отлично формулиран проблем, итеративни промптове, добре структурирана страница с качествен дизайн. Дава право на Сертификат от SoftUni.',
+      '6.00': '✦ Отлично изпълнение. Изключителна работа с AI — задълбочени промптове, итерация, завършена и визуално качествена страница, надхвърляща изискванията. Дава право на Сертификат от SoftUni.',
+    };
+    const certStatus = parseFloat(selectedGrade) >= 5.00;
+
     // EmailJS send
     const templateParams = {
-      grade:       selectedGrade,
-      grade_label: gradeLabels[selectedGrade],
-      grade_emoji: gradeEmojis[selectedGrade],
-      comment:     comment || '—',
-      from_name:   'Проверяващ',
-      reply_to:    ccEmail || 'noreply@fitzone.bg',
-      cc_email:    ccEmail || '',
+      grade:         selectedGrade,
+      grade_label:   gradeLabels[selectedGrade],
+      grade_emoji:   gradeEmojis[selectedGrade],
+      grade_info:    gradeInfo[selectedGrade],
+      cert_status:   certStatus ? 'ДА — имате право на Сертификат от SoftUni ✦' : 'НЕ — необходима е оценка ≥ 5.00',
+      cert_badge:    certStatus ? '🎓 СЕРТИФИКАТ' : '📋 БЕЗ СЕРТИФИКАТ',
+      cert_eligible: certStatus,
+      has_comment:   comment.length > 0,
+      comment:       comment || '(без коментар)',
+      from_name:     'Проверяващ',
+      reply_to:      ccEmail || 'noreply@fitzone.bg',
+      cc_email:      ccEmail || '',
     };
 
     try {

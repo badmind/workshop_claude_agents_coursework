@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FitZone — Оценка {{grade}}/6</title>
+<style>
+  /* Reset */
+  body,table,td,a{-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%}
+  body{margin:0;padding:0;background:#0F172A}
+  table{border-collapse:collapse}
+  img{border:0;height:auto;line-height:100%;outline:none;text-decoration:none}
+
+  /* Layout */
+  .email-wrap{max-width:600px;margin:0 auto;background:#0F172A}
+
+  /* Header */
+  .header{background:linear-gradient(135deg,#F97316 0%,#ea580c 100%);padding:0}
+  .header-inner{padding:40px 40px 36px;text-align:center}
+  .header-logo{font-family:Arial,sans-serif;font-size:32px;font-weight:900;color:#0F172A;letter-spacing:0.06em;text-transform:uppercase;margin:0 0 6px}
+  .header-logo span{color:rgba(15,23,42,0.45)}
+  .header-sub{font-family:Arial,sans-serif;font-size:13px;color:rgba(15,23,42,0.65);margin:0;letter-spacing:0.04em}
+
+  /* Orange bar */
+  .orange-bar{height:4px;background:linear-gradient(90deg,#F97316,#22C55E)}
+
+  /* Grade block */
+  .grade-wrap{padding:32px 40px 0}
+  .grade-box{background:#1E293B;border-radius:12px;padding:36px 28px;text-align:center;border:1px solid rgba(249,115,22,0.2)}
+  .grade-emoji{font-size:56px;line-height:1;display:block;margin-bottom:14px}
+  .grade-number{font-family:Arial,sans-serif;font-size:72px;font-weight:900;line-height:1;display:block;letter-spacing:-0.02em}
+  .grade-number.fail{color:#F97316}
+  .grade-number.pass{color:#22C55E}
+  .grade-divider{width:48px;height:3px;background:rgba(255,255,255,0.1);border-radius:2px;margin:14px auto}
+  .grade-label{font-family:Arial,sans-serif;font-size:20px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;display:block}
+  .grade-label.fail{color:#F97316}
+  .grade-label.pass{color:#22C55E}
+  .grade-scale{font-family:Arial,sans-serif;font-size:12px;color:#64748B;margin-top:6px;display:block}
+
+  /* Cert badge */
+  .cert-wrap{padding:16px 40px 0;text-align:center}
+  .cert-badge{display:inline-block;padding:10px 24px;border-radius:100px;font-family:Arial,sans-serif;font-size:13px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase}
+  .cert-badge.yes{background:rgba(34,197,94,0.12);border:1px solid rgba(34,197,94,0.4);color:#22C55E}
+  .cert-badge.no{background:rgba(249,115,22,0.08);border:1px solid rgba(249,115,22,0.25);color:#F97316}
+
+  /* Grade info */
+  .info-wrap{padding:24px 40px 0}
+  .info-box{background:#1E293B;border-radius:10px;padding:20px 22px;border-left:4px solid #a855f7}
+  .info-label{font-family:Arial,sans-serif;font-size:10px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:#a855f7;margin:0 0 8px}
+  .info-text{font-family:Arial,sans-serif;font-size:14px;line-height:1.7;color:#CBD5E1;margin:0}
+
+  /* Comment */
+  .comment-wrap{padding:16px 40px 0}
+  .comment-box{background:#1E293B;border-radius:10px;padding:20px 22px;border-left:4px solid #F97316}
+  .comment-label{font-family:Arial,sans-serif;font-size:10px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:#F97316;margin:0 0 8px}
+  .comment-text{font-family:Arial,sans-serif;font-size:14px;line-height:1.7;color:#CBD5E1;margin:0;font-style:italic}
+
+  /* Criteria table */
+  .criteria-wrap{padding:24px 40px 0}
+  .criteria-title{font-family:Arial,sans-serif;font-size:11px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:#94A3B8;margin:0 0 14px}
+  .criteria-item{display:flex;align-items:flex-start;gap:10px;margin-bottom:10px}
+  .crit-dot{width:6px;height:6px;border-radius:50%;background:#F97316;flex-shrink:0;margin-top:6px}
+  .crit-text{font-family:Arial,sans-serif;font-size:13px;color:#94A3B8;line-height:1.5;margin:0}
+
+  /* Info cards row */
+  .cards-wrap{padding:24px 40px 0}
+  .cards-row{background:#1E293B;border-radius:10px;overflow:hidden;display:flex}
+  .info-card{flex:1;padding:16px 18px;text-align:center;border-right:1px solid rgba(255,255,255,0.05)}
+  .info-card:last-child{border-right:none}
+  .card-label{font-family:Arial,sans-serif;font-size:10px;color:#64748B;text-transform:uppercase;letter-spacing:0.14em;display:block;margin-bottom:5px}
+  .card-val{font-family:Arial,sans-serif;font-size:13px;color:#F8FAFC;font-weight:600;display:block}
+
+  /* CTA button */
+  .cta-wrap{padding:28px 40px 0;text-align:center}
+  .cta-btn{display:inline-block;background:#22C55E;color:#052e16;font-family:Arial,sans-serif;font-size:15px;font-weight:800;text-transform:uppercase;letter-spacing:0.06em;padding:16px 36px;border-radius:8px;text-decoration:none}
+
+  /* Footer */
+  .footer{margin:32px 0 0;background:#0a1020;padding:28px 40px;text-align:center;border-top:1px solid rgba(255,255,255,0.05)}
+  .footer p{font-family:Arial,sans-serif;font-size:11px;color:#475569;margin:4px 0;line-height:1.6}
+  .footer a{color:#F97316;text-decoration:none}
+  .footer-logo{font-family:Arial,sans-serif;font-size:18px;font-weight:900;color:#F8FAFC;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:8px;display:block}
+  .footer-logo span{color:#F97316}
+
+  /* Responsive */
+  @media only screen and (max-width:480px){
+    .header-inner{padding:28px 24px}
+    .grade-wrap,.info-wrap,.comment-wrap,.criteria-wrap,.cards-wrap,.cta-wrap{padding-left:20px;padding-right:20px}
+    .footer{padding:24px 20px}
+    .grade-number{font-size:56px}
+    .cards-row{flex-direction:column}
+    .info-card{border-right:none;border-bottom:1px solid rgba(255,255,255,0.05)}
+    .info-card:last-child{border-bottom:none}
+  }
+</style>
+</head>
+<body>
+<div class="email-wrap">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-inner">
+      <div class="header-logo">Fit<span>Zone</span></div>
+      <p class="header-sub">Workshop: Claude Agents for Efficient Work &nbsp;·&nbsp; Редовен изпит, юни 2026</p>
+    </div>
+  </div>
+  <div class="orange-bar"></div>
+
+  <!-- GRADE -->
+  <div class="grade-wrap">
+    <div class="grade-box">
+      <span class="grade-emoji">{{grade_emoji}}</span>
+      <span class="grade-number {{#if cert_eligible}}pass{{else}}fail{{/if}}">{{grade}}</span>
+      <div class="grade-divider"></div>
+      <span class="grade-label {{#if cert_eligible}}pass{{else}}fail{{/if}}">{{grade_label}}</span>
+      <span class="grade-scale">Оценка по скала 2.00 – 6.00</span>
+    </div>
+  </div>
+
+  <!-- CERT STATUS -->
+  <div class="cert-wrap">
+    <span class="cert-badge {{#if cert_eligible}}yes{{else}}no{{/if}}">{{cert_badge}} &nbsp;·&nbsp; {{cert_status}}</span>
+  </div>
+
+  <!-- GRADE INFO -->
+  <div class="info-wrap">
+    <div class="info-box">
+      <p class="info-label">Описание на оценката</p>
+      <p class="info-text">{{grade_info}}</p>
+    </div>
+  </div>
+
+  <!-- COMMENT (показва се само ако има) -->
+  {{#if has_comment}}
+  <div class="comment-wrap">
+    <div class="comment-box">
+      <p class="comment-label">Коментар от проверяващия</p>
+      <p class="comment-text">{{comment}}</p>
+    </div>
+  </div>
+  {{/if}}
+
+  <!-- CRITERIA -->
+  <div class="criteria-wrap">
+    <p class="criteria-title">Критерии за оценяване (SoftUni)</p>
+    <div class="criteria-item">
+      <div class="crit-dot"></div>
+      <p class="crit-text">Ясно формулиран реален проблем и целева аудитория</p>
+    </div>
+    <div class="criteria-item">
+      <div class="crit-dot"></div>
+      <p class="crit-text">Адекватно и приложимо решение, генерирано и доразвито с AI</p>
+    </div>
+    <div class="criteria-item">
+      <div class="crit-dot"></div>
+      <p class="crit-text">Качество на промптовете и видим процес на итерация</p>
+    </div>
+    <div class="criteria-item">
+      <div class="crit-dot"></div>
+      <p class="crit-text">Завършена HTML страница с всички нужни секции</p>
+    </div>
+    <div class="criteria-item">
+      <div class="crit-dot"></div>
+      <p class="crit-text">Яснота, подреденост и споделен достъп до финалния резултат</p>
+    </div>
+  </div>
+
+  <!-- INFO CARDS -->
+  <div class="cards-wrap">
+    <div class="cards-row">
+      <div class="info-card">
+        <span class="card-label">Студент</span>
+        <span class="card-val">Божидар Пачовски</span>
+      </div>
+      <div class="info-card">
+        <span class="card-label">Email</span>
+        <span class="card-val">pachovski@gmail.com</span>
+      </div>
+      <div class="info-card">
+        <span class="card-label">Курс</span>
+        <span class="card-val">Claude Agents</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-wrap">
+    <a href="https://badmind.github.io/workshop_claude_agents_coursework/" class="cta-btn">
+      → Виж курсовата работа
+    </a>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <span class="footer-logo">Fit<span>Zone</span></span>
+    <p>Изпратено автоматично чрез формата за оценяване на курсовата работа</p>
+    <p><a href="https://badmind.github.io/workshop_claude_agents_coursework/">badmind.github.io/workshop_claude_agents_coursework</a></p>
+    <p style="margin-top:12px;color:#334155">Workshop: Claude Agents for Efficient Work &nbsp;·&nbsp; SoftUni, юни 2026</p>
+  </div>
+
+</div>
+</body>
+</html>
