@@ -2393,20 +2393,30 @@
     };
     const certStatus = parseFloat(selectedGrade) >= 5.00;
 
-    // EmailJS send
+    // Build comment block HTML
+    const commentHtml = comment.length > 0
+      ? `<div style="margin:16px 40px 0"><div style="background:#1E293B;border-radius:10px;padding:20px 22px;border-left:4px solid #F97316"><p style="font-family:Arial,sans-serif;font-size:10px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:#F97316;margin:0 0 8px">Коментар от проверяващия</p><p style="font-family:Arial,sans-serif;font-size:14px;line-height:1.7;color:#CBD5E1;margin:0;font-style:italic">${comment}</p></div></div>`
+      : '';
+
+    const gradeColor  = certStatus ? '#22C55E' : '#F97316';
+    const certBgColor = certStatus ? 'rgba(34,197,94,0.12)' : 'rgba(249,115,22,0.08)';
+    const certBorder  = certStatus ? 'rgba(34,197,94,0.4)'  : 'rgba(249,115,22,0.25)';
+
     const templateParams = {
-      grade:         selectedGrade,
-      grade_label:   gradeLabels[selectedGrade],
-      grade_emoji:   gradeEmojis[selectedGrade],
-      grade_info:    gradeInfo[selectedGrade],
-      cert_status:   certStatus ? 'ДА — имате право на Сертификат от SoftUni ✦' : 'НЕ — необходима е оценка ≥ 5.00',
-      cert_badge:    certStatus ? '🎓 СЕРТИФИКАТ' : '📋 БЕЗ СЕРТИФИКАТ',
-      cert_eligible: certStatus,
-      has_comment:   comment.length > 0,
-      comment:       comment || '(без коментар)',
-      from_name:     'Проверяващ',
-      reply_to:      ccEmail || 'noreply@fitzone.bg',
-      cc_email:      ccEmail || '',
+      grade:        selectedGrade,
+      grade_label:  gradeLabels[selectedGrade],
+      grade_emoji:  gradeEmojis[selectedGrade],
+      grade_info:   gradeInfo[selectedGrade],
+      grade_color:  gradeColor,
+      cert_status:  certStatus ? 'ДА — имате право на Сертификат от SoftUni ✦' : 'НЕ — необходима е оценка ≥ 5.00',
+      cert_badge:   certStatus ? '🎓 СЕРТИФИКАТ' : '📋 БЕЗ СЕРТИФИКАТ',
+      cert_bg:      certBgColor,
+      cert_border:  certBorder,
+      cert_color:   gradeColor,
+      comment_html: commentHtml,
+      from_name:    'Проверяващ',
+      reply_to:     ccEmail || 'noreply@fitzone.bg',
+      cc_email:     ccEmail || '',
     };
 
     try {
