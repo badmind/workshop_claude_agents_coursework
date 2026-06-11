@@ -1241,7 +1241,8 @@
       /* Exam banner */
       .exam-banner-inner { flex-direction: column !important; gap: 14px !important; }
       .exam-banner-btns { flex-direction: column !important; width: 100%; }
-      .exam-banner-btns a { width: 100% !important; justify-content: center !important; }
+      .exam-banner-btns a,
+      .exam-banner-btns button { width: 100% !important; justify-content: center !important; box-sizing: border-box; }
 
       /* Sections */
       .services-grid  { grid-template-columns: 1fr; }
@@ -2129,6 +2130,86 @@
   </div>
 </footer>
 
+
+<!-- ══ RATE MODAL ═══════════════════════════════════════════════════ -->
+<div class="rate-overlay" id="rateOverlay" role="dialog" aria-modal="true" aria-labelledby="rateTitle">
+  <div class="rate-modal">
+    <div class="rate-modal-header">
+      <div class="rate-modal-title" id="rateTitle">Оцени<br>курсовата работа</div>
+      <button class="rate-close" onclick="closeRateModal()" aria-label="Затвори">✕</button>
+    </div>
+    <div class="rate-modal-body" id="rateFormWrap">
+      <div class="rate-intro">
+        Благодаря, че отделихте момент да оцените работата ми. Вашето мнение е важно за мен — ще ми помогне да разбера какво съм направил добре и как да се подобрям. При избор на оценка ще получа имейл с вашата обратна връзка.
+        <br><br>
+        <strong>Ако желаете да получите копие на имейла, въведете вашия адрес по-долу.</strong>
+      </div>
+
+      <div class="stars-label">Изберете оценка</div>
+      <div class="stars-row" id="starsRow">
+        <button class="star-btn" data-grade="2" onclick="selectGrade(this)" type="button">
+          <span class="star-emoji">😐</span>
+          <span class="star-val">2</span>
+          <span class="star-label">Слаб</span>
+        </button>
+        <button class="star-btn" data-grade="3" onclick="selectGrade(this)" type="button">
+          <span class="star-emoji">🙂</span>
+          <span class="star-val">3</span>
+          <span class="star-label">Среден</span>
+        </button>
+        <button class="star-btn" data-grade="4" onclick="selectGrade(this)" type="button">
+          <span class="star-emoji">😊</span>
+          <span class="star-val">4</span>
+          <span class="star-label">Добър</span>
+        </button>
+        <button class="star-btn" data-grade="5" onclick="selectGrade(this)" type="button">
+          <span class="star-emoji">🤩</span>
+          <span class="star-val">5</span>
+          <span class="star-label">Отличен</span>
+        </button>
+        <button class="star-btn" data-grade="6" onclick="selectGrade(this)" type="button">
+          <span class="star-emoji">🏆</span>
+          <span class="star-val">6</span>
+          <span class="star-label">Отличен+</span>
+        </button>
+      </div>
+
+      <div class="rate-field" style="margin-top:20px">
+        <label>Вашият коментар (по желание)</label>
+        <textarea id="rateComment" placeholder="Напишете нещо за мен — какво харесвате, какво бихте подобрили..."></textarea>
+      </div>
+
+      <div class="rate-field">
+        <label>Вашият имейл за копие (по желание)</label>
+        <input type="email" id="rateCcEmail" placeholder="example@email.com">
+      </div>
+
+      <button class="rate-submit" id="rateSubmitBtn" onclick="submitRate()">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        Изпрати оценката
+      </button>
+
+      <div class="send-progress" id="sendProgress">
+        <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+        <div class="progress-text" id="progressText">Подготвяне на имейла...</div>
+      </div>
+    </div>
+
+    <div class="rate-success" id="rateSuccess">
+      <div class="success-ring">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+      </div>
+      <h3>Благодаря! ✨</h3>
+      <p>Оценката е изпратена успешно.<br>Получих имейл с вашата обратна връзка и тя ме прави наистина щастлив.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Flying letters canvas -->
+<div class="flying-letters" id="flyingLetters"></div>
+
+<div class="flying-letters" id="flyingLetters"></div>
+
 <script>
   // ── Form submit feedback
   document.getElementById('trialForm').addEventListener('submit', function(e) {
@@ -2190,10 +2271,13 @@
     document.body.style.overflow = '';
   }
 
-  // Close on overlay click
-  document.getElementById('rateOverlay').addEventListener('click', function(e) {
-    if (e.target === this) closeRateModal();
-  });
+  // Close on overlay click — safe: modal is in DOM before this script
+  const rateOverlayEl = document.getElementById('rateOverlay');
+  if (rateOverlayEl) {
+    rateOverlayEl.addEventListener('click', function(e) {
+      if (e.target === this) closeRateModal();
+    });
+  }
 
   // Close on Escape
   document.addEventListener('keydown', function(e) {
@@ -2314,82 +2398,7 @@ ${comment}` : '',
   }
 </script>
 
-<!-- ══ RATE MODAL ═══════════════════════════════════════════════════ -->
-<div class="rate-overlay" id="rateOverlay" role="dialog" aria-modal="true" aria-labelledby="rateTitle">
-  <div class="rate-modal">
-    <div class="rate-modal-header">
-      <div class="rate-modal-title" id="rateTitle">Оцени<br>курсовата работа</div>
-      <button class="rate-close" onclick="closeRateModal()" aria-label="Затвори">✕</button>
-    </div>
-    <div class="rate-modal-body" id="rateFormWrap">
-      <div class="rate-intro">
-        Благодаря, че отделихте момент да оцените работата ми. Вашето мнение е важно за мен — ще ми помогне да разбера какво съм направил добре и как да се подобрям. При избор на оценка ще получа имейл с вашата обратна връзка.
-        <br><br>
-        <strong>Ако желаете да получите копие на имейла, въведете вашия адрес по-долу.</strong>
-      </div>
 
-      <div class="stars-label">Изберете оценка</div>
-      <div class="stars-row" id="starsRow">
-        <button class="star-btn" data-grade="2" onclick="selectGrade(this)" type="button">
-          <span class="star-emoji">😐</span>
-          <span class="star-val">2</span>
-          <span class="star-label">Слаб</span>
-        </button>
-        <button class="star-btn" data-grade="3" onclick="selectGrade(this)" type="button">
-          <span class="star-emoji">🙂</span>
-          <span class="star-val">3</span>
-          <span class="star-label">Среден</span>
-        </button>
-        <button class="star-btn" data-grade="4" onclick="selectGrade(this)" type="button">
-          <span class="star-emoji">😊</span>
-          <span class="star-val">4</span>
-          <span class="star-label">Добър</span>
-        </button>
-        <button class="star-btn" data-grade="5" onclick="selectGrade(this)" type="button">
-          <span class="star-emoji">🤩</span>
-          <span class="star-val">5</span>
-          <span class="star-label">Отличен</span>
-        </button>
-        <button class="star-btn" data-grade="6" onclick="selectGrade(this)" type="button">
-          <span class="star-emoji">🏆</span>
-          <span class="star-val">6</span>
-          <span class="star-label">Отличен+</span>
-        </button>
-      </div>
-
-      <div class="rate-field" style="margin-top:20px">
-        <label>Вашият коментар (по желание)</label>
-        <textarea id="rateComment" placeholder="Напишете нещо за мен — какво харесвате, какво бихте подобрили..."></textarea>
-      </div>
-
-      <div class="rate-field">
-        <label>Вашият имейл за копие (по желание)</label>
-        <input type="email" id="rateCcEmail" placeholder="example@email.com">
-      </div>
-
-      <button class="rate-submit" id="rateSubmitBtn" onclick="submitRate()">
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-        Изпрати оценката
-      </button>
-
-      <div class="send-progress" id="sendProgress">
-        <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
-        <div class="progress-text" id="progressText">Подготвяне на имейла...</div>
-      </div>
-    </div>
-
-    <div class="rate-success" id="rateSuccess">
-      <div class="success-ring">
-        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-      </div>
-      <h3>Благодаря! ✨</h3>
-      <p>Оценката е изпратена успешно.<br>Получих имейл с вашата обратна връзка и тя ме прави наистина щастлив.</p>
-    </div>
-  </div>
-</div>
-
-<!-- Flying letters canvas -->
-<div class="flying-letters" id="flyingLetters"></div>
 
 </body>
 </html>

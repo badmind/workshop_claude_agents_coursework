@@ -1,49 +1,48 @@
 const {
   Document, Packer, Paragraph, TextRun, Table, TableRow, TableCell,
-  AlignmentType, BorderStyle, WidthType, ShadingType, UnderlineType,
-  LevelFormat, HeadingLevel
+  AlignmentType, BorderStyle, WidthType, ShadingType, HeadingLevel,
+  UnderlineType, ExternalHyperlink, PageBreak
 } = require('docx');
 const fs = require('fs');
 
 // ── HELPERS ───────────────────────────────────────────────────────
-const borderThin = { style: BorderStyle.SINGLE, size: 4, color: "CCCCCC" };
-const borders = { top: borderThin, bottom: borderThin, left: borderThin, right: borderThin };
+const bNone  = { style: BorderStyle.NONE, size: 0, color: "FFFFFF" };
+const bLine  = { style: BorderStyle.SINGLE, size: 4, color: "CCCCCC" };
+const bAll   = { top: bLine, bottom: bLine, left: bLine, right: bLine };
+const bNoneAll = { top: bNone, bottom: bNone, left: bNone, right: bNone };
 
-function cell(text, opts = {}) {
-  const { bold=false, color="1C1C1C", bg="FFFFFF", width=7092, fontSize=22, italic=false } = opts;
-  return new TableCell({
-    borders,
-    width: { size: width, type: WidthType.DXA },
-    shading: { fill: bg, type: ShadingType.CLEAR },
-    margins: { top: 120, bottom: 120, left: 160, right: 160 },
-    children: [new Paragraph({ children: [new TextRun({ text, bold, color, size: fontSize, font: "Arial", italics: italic })] })],
-  });
+function run(text, opts = {}) {
+  return new TextRun({ text, font: "Calibri", size: 22, ...opts });
 }
 
-function labelCell(text) { return cell(text, { bold: true, bg: "F5F5F5", color: "333333", width: 2268 }); }
-function valueCell(text) { return cell(text, { width: 7092 }); }
-function twoColRow(label, value) { return new TableRow({ children: [labelCell(label), valueCell(value)] }); }
+function p(children, opts = {}) {
+  if (typeof children === 'string') children = [run(children)];
+  return new Paragraph({ spacing: { before: 60, after: 120 }, children, ...opts });
+}
 
-function h1(text) {
-  return new Paragraph({
-    spacing: { before: 400, after: 160 },
-    children: [new TextRun({ text, bold: true, size: 36, font: "Arial", color: "1C1C1C" })],
-  });
+function pBold(text, opts = {}) {
+  return p([run(text, { bold: true })], opts);
+}
+
+function pItalic(text) {
+  return p([run(text, { italics: true, color: "555555" })]);
 }
 
 function h2(text) {
   return new Paragraph({
-    spacing: { before: 320, after: 120 },
-    children: [new TextRun({ text, bold: true, size: 28, font: "Arial", color: "1C1C1C",
-      underline: { type: UnderlineType.SINGLE } })],
+    heading: HeadingLevel.HEADING_2,
+    spacing: { before: 360, after: 160 },
+    children: [run(text, { bold: true, size: 28, color: "1F4E79" })],
   });
 }
 
-function para(text, opts = {}) {
-  const { italic=false, color="333333", before=60, after=120 } = opts;
+function redImportant(text) {
   return new Paragraph({
-    spacing: { before, after },
-    children: [new TextRun({ text, font: "Arial", size: 22, italics: italic, color })],
+    spacing: { before: 160, after: 160 },
+    children: [
+      run("Важно: ", { bold: true, color: "CC0000", size: 22 }),
+      run(text, { bold: true, color: "CC0000", size: 22 }),
+    ],
   });
 }
 
@@ -52,128 +51,86 @@ function bullet(text) {
     spacing: { before: 40, after: 40 },
     indent: { left: 360 },
     children: [
-      new TextRun({ text: "• ", font: "Arial", size: 22, color: "F97316" }),
-      new TextRun({ text, font: "Arial", size: 22, color: "333333" }),
+      run("• ", { color: "1F4E79" }),
+      run(text),
     ],
   });
 }
 
-function redNote(text) {
-  return new Paragraph({
-    spacing: { before: 120, after: 120 },
-    children: [
-      new TextRun({ text: "Важно: ", bold: true, color: "CC0000", font: "Arial", size: 22 }),
-      new TextRun({ text, color: "CC0000", font: "Arial", size: 22 }),
-    ],
+function spacer() {
+  return new Paragraph({ spacing: { before: 80, after: 80 }, children: [run("")] });
+}
+
+// Two-column table row — label (gray) | value (white)
+function tRow(label, value) {
+  return new TableRow({ children: [
+    new TableCell({
+      borders: bAll,
+      width: { size: 2500, type: WidthType.DXA },
+      shading: { fill: "F2F2F2", type: ShadingType.CLEAR },
+      margins: { top: 100, bottom: 100, left: 160, right: 160 },
+      children: [p([run(label, { bold: true })])],
+    }),
+    new TableCell({
+      borders: bAll,
+      width: { size: 6860, type: WidthType.DXA },
+      shading: { fill: "FFFFFF", type: ShadingType.CLEAR },
+      margins: { top: 100, bottom: 100, left: 160, right: 160 },
+      children: [p([run(value)])],
+    }),
+  ]});
+}
+
+function twoColTable(rows) {
+  return new Table({
+    width: { size: 9360, type: WidthType.DXA },
+    columnWidths: [2500, 6860],
+    rows: rows.map(([l, v]) => tRow(l, v)),
   });
 }
 
-function spacer(before = 80, after = 80) {
-  return new Paragraph({ spacing: { before, after }, children: [new TextRun("")] });
-}
-
-function divider() {
-  return new Paragraph({
-    spacing: { before: 200, after: 200 },
-    border: { bottom: { style: BorderStyle.SINGLE, size: 4, color: "EEEEEE" } },
-    children: [new TextRun("")],
-  });
-}
-
-// ── CONTENT ───────────────────────────────────────────────────────
+// ── DATA ──────────────────────────────────────────────────────────
+const PAGE_URL   = 'https://badmind.github.io/workshop_claude_agents_coursework/';
+const GITHUB_URL = 'https://github.com/badmind/workshop_claude_agents_coursework';
 
 const PROMPT_TEXT =
-  'Работя по проблем в сферата на малкия бизнес / фитнес услуги. ' +
-  'Проблемът е: Имам малък фитнес клуб FitZone в кв. Люлин, София ' +
+  'Работя по проблем в сферата на малкия бизнес и фитнес услуги. ' +
+  'Проблемът е: имам малък фитнес клуб FitZone в кв. Люлин, София ' +
   '(бул. Царица Йоанна 47), работещ вече 7 години, без никакво онлайн ' +
-  'присъствие — нямам уебсайт, намират ме само хора от квартала по препоръка. ' +
-  'Искам потенциалните клиенти да намират информация за услугите ми ' +
+  'присъствие — нямам уебсайт и клиентите ме намират само по препоръка. ' +
+  'Искам потенциалните клиенти да намират информация за услугите ' +
   '(фитнес зала, кардио, групови тренировки, личен треньор), ' +
-  'цените (от €5/посещение до €306/год.), работното време и да се ' +
-  'запишат за безплатна пробна тренировка онлайн. ' +
+  'цените в EUR и да се записват за безплатна пробна тренировка онлайн. ' +
   'Предложи ми просто решение, обясни на кого помага и дай идеята в 5-6 изречения.';
 
 const AI_SOLUTION =
-  'Решението е едностранична уебстраница (landing page) за FitZone с секции: ' +
-  'Hero с ключово послание, Услуги (4 карти), Цени в EUR (4 плана), ' +
-  'Седмична програма на груповите тренировки, Форма за безплатна пробна тренировка, ' +
-  'Google Maps с реалната локация и контакти. ' +
-  'Страницата помага на хора от квартала, търсещи фитнес клуб в Google — ' +
-  'виждат всичко необходимо и се записват без да се обаждат. ' +
-  'Редизайнът следва UI/UX Pro Max Skill (Vibrant & Block-based: оранжево #F97316 + ' +
-  'зелено #22C55E на тъмен фон), оптимизирана за мобилни устройства с hamburger меню. ' +
-  'Хоствана безплатно в GitHub Pages, без месечен разход.';
+  'Решението е едностранична уебстраница (landing page) за FitZone с ясна структура: ' +
+  'Hero секция с ключово послание, блок с 4 услуги, ценоразпис в EUR (4 плана), ' +
+  'седмична програма на груповите тренировки, форма за безплатна пробна тренировка ' +
+  'и Google Maps с реалната локация. Страницата помага на хора от квартала, ' +
+  'търсещи фитнес клуб в Google — виждат всичко необходимо и се записват без обаждане. ' +
+  'Дизайнът следва UI/UX Pro Max Skill (Vibrant & Block-based: #F97316 / #22C55E) ' +
+  'с пълна мобилна оптимизация и hamburger меню. ' +
+  'Хоствана безплатно в GitHub Pages — без месечен разход.';
 
 const HTML_PROMPT =
-  'Направи ми красива, responsive едностранична HTML страница за фитнес клуб FitZone. ' +
-  'Стил: Vibrant & Block-based, тъмен фон #0F172A, оранжев акцент #F97316, зелен CTA #22C55E. ' +
-  'Секции: Hero с H1 "Тренирай без компромис" + статистики, Услуги (4 карти), ' +
-  'Цени в EUR (4 абонаментни плана), Групови тренировки (6 занятия), ' +
-  'Форма за пробна тренировка, Google Maps embed, Footer. ' +
-  'Мобилна оптимизация с hamburger меню. Шрифт: Barlow Condensed + Barlow от Google Fonts.';
-
-const PAGE_URL = 'https://badmind.github.io/workshop_claude_agents_coursework/';
-const GITHUB_URL = 'https://github.com/badmind/workshop_claude_agents_coursework';
-
-// ── TABLES ────────────────────────────────────────────────────────
-
-const studentTable = new Table({
-  width: { size: 9360, type: WidthType.DXA },
-  columnWidths: [2268, 7092],
-  rows: [
-    twoColRow("Име", "Божидар Пачовски"),
-    twoColRow("Username", "badmind"),
-    twoColRow("Email", "pachovski@gmail.com"),
-  ],
-});
-
-const topicTable = new Table({
-  width: { size: 9360, type: WidthType.DXA },
-  columnWidths: [2268, 7092],
-  rows: [
-    twoColRow("Избрана сфера", "Малък бизнес / Фитнес услуги"),
-    twoColRow("Проблем",
-      "Фитнес клуб FitZone (кв. Люлин, София) работи 7 години без онлайн присъствие. " +
-      "Клиентите го намират само по препоръка от квартала. Необходима е уебстраница " +
-      "с услуги, цени в EUR, форма за запис и локация."),
-  ],
-});
-
-const solutionTable = new Table({
-  width: { size: 9360, type: WidthType.DXA },
-  columnWidths: [2268, 7092],
-  rows: [
-    twoColRow("Промпт", PROMPT_TEXT),
-    twoColRow("Получено решение", AI_SOLUTION),
-    twoColRow("Линк или screenshot", PAGE_URL),
-  ],
-});
-
-const htmlTable = new Table({
-  width: { size: 9360, type: WidthType.DXA },
-  columnWidths: [2268, 7092],
-  rows: [
-    twoColRow("Промпт за HTML", HTML_PROMPT),
-    twoColRow("Линк към страница", PAGE_URL),
-  ],
-});
-
-const techTable = new Table({
-  width: { size: 9360, type: WidthType.DXA },
-  columnWidths: [2268, 7092],
-  rows: [
-    twoColRow("Технология", "HTML5 / CSS3 / JavaScript — без фреймуъркове"),
-    twoColRow("Хостинг", "GitHub Pages (безплатно)"),
-    twoColRow("Дизайн система", "UI/UX Pro Max Skill — Vibrant & Block-based"),
-    twoColRow("GitHub репо", GITHUB_URL),
-  ],
-});
+  'Направи ми красива, responsive HTML страница за фитнес клуб FitZone. ' +
+  'Тъмен фон #0F172A, оранжев акцент #F97316, зелен CTA #22C55E, шрифт Barlow Condensed. ' +
+  'Секции: Hero с "Тренирай без компромис" + статистики, Услуги (4 карти), ' +
+  'Цени в EUR (4 плана), Групови тренировки, Форма за пробна тренировка, ' +
+  'Google Maps embed, Footer. Мобилна оптимизация с hamburger меню.';
 
 // ── DOCUMENT ──────────────────────────────────────────────────────
-
 const doc = new Document({
   styles: {
-    default: { document: { run: { font: "Arial", size: 22, color: "1C1C1C" } } },
+    default: { document: { run: { font: "Calibri", size: 22 } } },
+    paragraphStyles: [
+      {
+        id: "Heading2", name: "Heading 2", basedOn: "Normal", next: "Normal",
+        run: { size: 28, bold: true, color: "1F4E79", font: "Calibri" },
+        paragraph: { spacing: { before: 360, after: 160 }, outlineLevel: 1 },
+      },
+    ],
   },
   sections: [{
     properties: {
@@ -187,109 +144,129 @@ const doc = new Document({
       // ── ЗАГЛАВИЕ
       new Paragraph({
         alignment: AlignmentType.CENTER,
-        spacing: { before: 0, after: 160 },
-        children: [new TextRun({ text: "Практическа изпитна задача по", bold: true, size: 32, font: "Arial" })],
+        spacing: { before: 0, after: 120 },
+        children: [run("Практическа изпитна задача по", { bold: true, size: 30 })],
       }),
       new Paragraph({
         alignment: AlignmentType.CENTER,
         spacing: { before: 0, after: 80 },
-        children: [new TextRun({ text: '"Workshop: Claude Agents for Efficient Work"', bold: true, size: 36, font: "Arial" })],
+        children: [run('"Workshop: Claude Agents for Efficient Work"', { bold: true, size: 34 })],
       }),
       new Paragraph({
         alignment: AlignmentType.CENTER,
-        spacing: { before: 0, after: 360 },
-        children: [new TextRun({ text: "Редовен изпит — юни 2026", size: 22, font: "Arial", color: "888888" })],
+        spacing: { before: 0, after: 320 },
+        children: [run("Редовен изпит — юни 2026", { size: 20, color: "888888" })],
       }),
 
-      para("Настоящото задание има за цел да провери дали можете самостоятелно да използвате Claude за формулиране на реален проблем, генериране на приложимо решение и създаване на проста уебстраница, която представя решението по ясен и убедителен начин."),
-
-      spacer(),
-      studentTable,
+      p("Настоящото задание за изпит има за цел да провери дали можете самостоятелно да използвате Claude за формулиране на реален проблем, генериране на приложимо решение и създаване на проста уебстраница, която представя решението по ясен и убедителен начин."),
       spacer(),
 
-      redNote("Уверете се, че линковете към вашите резултати са със споделен достъп, позволяващ на проверяващите да ги отворят. Ако линкът не е достъпен, задачата няма да може да бъде оценена коректно."),
+      // ── ДАННИ ЗА СТУДЕНТА
+      twoColTable([
+        ["Име",      "Божидар Пачовски"],
+        ["Username", "badmind"],
+        ["Email",    "pachovski@gmail.com"],
+      ]),
+      spacer(),
 
-      divider(),
+      redImportant("Уверете се, че линковете към вашите резултати са със споделен достъп, позволяващ на проверяващите да ги отворят. Ако линкът не е достъпен, задачата няма да може да бъде оценена коректно."),
+      spacer(),
 
-      // ── СЕКЦИЯ 1
-      h2("1. Избор на сфера и формулиране на проблем"),
-      para("Изберете реален проблем от бизнес, организация, екип, общност или ваша професионална среда. Проблемът трябва да е конкретен и да може да бъде обяснен в 1-2 изречения."),
-      spacer(40, 80),
-      topicTable,
+      // ════════════════════════════════════════════
+      // СЕКЦИЯ 1 — Избор на сфера
+      // ════════════════════════════════════════════
+      h2("Избор на сфера и формулиране на проблем"),
 
-      divider(),
+      p("Изберете реален проблем от бизнес, организация, екип, общност или ваша професионална среда. Проблемът трябва да е конкретен и да може да бъде обяснен в 1-2 изречения."),
+      p("Можете да използвате една от примерните теми: местен бизнес без онлайн присъствие, организиране на събитие, онбординг на нов служител, често задавани въпроси от клиенти, промотиране на нов продукт или услуга, здравословен навик в екипа, местна общност/квартал. Можете да изберете и собствена тема."),
+      p("Попълнете таблицата:"),
+      spacer(),
 
-      // ── СЕКЦИЯ 2
-      h2("2. Генериране на решение с AI асистент"),
-      para("Описах проблема на Claude и поисках предложение за просто, приложимо решение. В промпта включих кой има проблема, какво му пречи и какъв тип резултат очаквам."),
-      para('Използван промпт формат: „Работя по проблем в сферата на [сфера]. Проблемът е: [описание]. Предложи ми просто решение, обясни на кого помага и дай идеята в 5-6 изречения."', { italic: true }),
-      spacer(40, 80),
-      solutionTable,
+      twoColTable([
+        ["Избрана сфера", "Малък бизнес / Фитнес услуги"],
+        ["Проблем",
+          "Фитнес клуб FitZone (кв. Люлин, София) работи 7 години без никакво онлайн присъствие. " +
+          "Клиентите го намират само по препоръка от квартала. " +
+          "Необходима е уебстраница с услуги, цени в EUR, форма за запис и Google Maps локация."],
+      ]),
 
-      divider(),
+      // ════════════════════════════════════════════
+      // СЕКЦИЯ 2 — Генериране на решение
+      // ════════════════════════════════════════════
+      h2("Генериране на решение с AI асистент"),
 
-      // ── СЕКЦИЯ 3
-      h2("3. Създаване на уебстраница с AI"),
-      para("Използвах Claude за генериране на HTML страница, представяща решението. Страницата е разбираема за потенциален потребител дори без технически познания."),
-      spacer(40, 40),
-      para("Изпълнени минимални изисквания:", { color: "1C1C1C" }),
-      bullet("Заглавие с кратко и ясно послание (\"Тренирай без компромис\")"),
-      bullet("Кратко обяснение на проблема и решението"),
-      bullet("4 ключови услуги и 4 ценови плана в EUR"),
-      bullet("Форма за запис — призив за действие"),
-      bullet("Четим дизайн: Vibrant & Block-based, тъмен фон, оранжев акцент"),
-      bullet("Мобилна оптимизация с hamburger меню"),
-      bullet("Google Maps embed с реалната локация"),
-      spacer(80, 80),
-      htmlTable,
-      spacer(40, 80),
-      techTable,
+      p("Опишете проблема на AI асистента и поискайте предложение за просто, приложимо решение. В промпта включете кой има проблема, какво му пречи и какъв тип резултат очаквате."),
+      pItalic('Примерен промпт: „Работя по проблем в сферата на [сфера]. Проблемът е: [описание]. Предложи ми просто решение, обясни на кого помага и дай идеята в 5-6 изречения."'),
+      p("Попълнете таблицата (поставете реалния промпт и резултата):"),
+      spacer(),
 
-      divider(),
+      twoColTable([
+        ["Промпт",             PROMPT_TEXT],
+        ["Получено решение",   AI_SOLUTION],
+        ["Линк или screenshot", PAGE_URL],
+      ]),
 
-      // ── КРИТЕРИИ
-      h2("4. Критерии за оценяване"),
-      bullet("Ясно формулиран реален проблем и целева аудитория"),
-      bullet("Адекватно и приложимо решение, генерирано и доразвито с AI"),
-      bullet("Качество на промптовете и видим процес на итерация"),
-      bullet("Завършена HTML страница с нужните секции"),
-      bullet("Яснота, подреденост и споделен достъп до финалния резултат"),
-      spacer(80, 80),
-      para("Няма изискване страницата да бъде сложна или технически перфектна. Важни са ясната идея, правилното използване на AI асистента и завършеното представяне на решението.", { italic: true }),
+      // ════════════════════════════════════════════
+      // СЕКЦИЯ 3 — Уебстраница
+      // ════════════════════════════════════════════
+      h2("Създаване на уебстраница с AI"),
 
-      divider(),
+      p("Помолете AI асистента да създаде една HTML страница, която представя решението. Страницата трябва да бъде разбираема за потенциален потребител или клиент, дори ако той не е запознат с контекста."),
+      pBold("Минимални изисквания към страницата:"),
+      bullet("заглавие с кратко и ясно послание;"),
+      bullet("кратко обяснение на проблема и решението;"),
+      bullet("3 ключови ползи;"),
+      bullet("бутон или текст с призив за действие;"),
+      bullet("четим дизайн с подходящи цветове и подредба."),
+      spacer(),
+      pItalic('Примерен промпт: „Направи ми проста, красива уебстраница (HTML) за това решение. Секции: заглавие с кратко послание, 3 ключови ползи и бутон с призив за действие."'),
+      p("Попълнете таблицата:"),
+      spacer(),
 
-      // ── ПРЕДАВАНЕ
-      h2("Предаване"),
-      para("Проектът се качва като PDF или DOCX в Google Drive и се споделя линк в сайта, секция Редовен / Поправителен изпит."),
-      spacer(60, 40),
+      twoColTable([
+        ["Промпт за HTML",                          HTML_PROMPT],
+        ["Линк към страница / HTML файл / screenshot", PAGE_URL],
+      ]),
+      spacer(),
+
+      twoColTable([
+        ["GitHub репо",   GITHUB_URL],
+        ["Технология",    "HTML5 / CSS3 / JavaScript — без фреймуъркове"],
+        ["Хостинг",       "GitHub Pages (безплатно)"],
+        ["Дизайн система","UI/UX Pro Max Skill — Vibrant & Block-based"],
+      ]),
+
+      // ════════════════════════════════════════════
+      // СЕКЦИЯ 4 — Критерии
+      // ════════════════════════════════════════════
+      h2("Критерии за оценяване"),
+
+      p("Задачата ще бъде оценена по следните критерии:"),
+      bullet("ясно формулиран реален проблем и целева аудитория;"),
+      bullet("адекватно и приложимо решение, генерирано и доразвито с AI;"),
+      bullet("качество на промптовете и видим процес на итерация;"),
+      bullet("завършена HTML страница с нужните секции;"),
+      bullet("яснота, подреденост и споделен достъп до финалния резултат."),
+      spacer(),
+      pItalic("Няма изискване страницата да бъде сложна или технически перфектна. Важни са ясната идея, правилното използване на AI асистента и завършеното представяне на решението."),
+      spacer(),
+
+      // ── FOOTER
       new Paragraph({
-        spacing: { before: 60, after: 40 },
+        spacing: { before: 400, after: 0 },
+        border: { top: { style: BorderStyle.SINGLE, size: 4, color: "CCCCCC" } },
         children: [
-          new TextRun({ text: "Редовен изпит: ", bold: true, font: "Arial", size: 22 }),
-          new TextRun({ text: "до 14 юни 2026 г., 21:59 ч.", font: "Arial", size: 22 }),
+          run("Последвайте ни: ", { color: "888888", size: 20 }),
+          run("© SoftUni – https://softuni.bg", { color: "888888", size: 20 }),
+          run("  |  Защитен документ. Моля, не копирайте без разрешение.", { color: "AAAAAA", size: 18 }),
         ],
       }),
-      new Paragraph({
-        spacing: { before: 40, after: 80 },
-        children: [
-          new TextRun({ text: "Поправителен изпит: ", bold: true, font: "Arial", size: 22 }),
-          new TextRun({ text: "до 21 юни 2026 г., 21:59 ч.", font: "Arial", size: 22 }),
-        ],
-      }),
 
-      spacer(160, 80),
-
-      new Paragraph({
-        alignment: AlignmentType.CENTER,
-        spacing: { before: 80, after: 0 },
-        children: [new TextRun({ text: "© SoftUni – https://softuni.bg", font: "Arial", size: 18, color: "AAAAAA" })],
-      }),
     ],
   }],
 });
 
-Packer.toBuffer(doc).then(buffer => {
-  fs.writeFileSync('Exam-Claude-Webpage.docx', buffer);
+Packer.toBuffer(doc).then(buf => {
+  fs.writeFileSync('Exam-Claude-Webpage.docx', buf);
   console.log('Done');
 });
