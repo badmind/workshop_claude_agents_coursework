@@ -2208,9 +2208,9 @@
 <!-- Flying letters canvas -->
 <div class="flying-letters" id="flyingLetters"></div>
 
-<div class="flying-letters" id="flyingLetters"></div>
-
 <script>
+  const navEl = document.querySelector('nav');
+
   // ── Form submit feedback
   document.getElementById('trialForm').addEventListener('submit', function(e) {
     e.preventDefault();
@@ -2248,15 +2248,13 @@
 
   // Close on outside tap
   document.addEventListener('click', (e) => {
-    if (!nav.contains(e.target) && !mobileMenu.contains(e.target)) {
+    if (!navEl.contains(e.target) && !mobileMenu.contains(e.target)) {
       mobileMenu.classList.remove('open');
       hamburger.classList.remove('open');
       hamburger.setAttribute('aria-expanded', 'false');
       document.body.style.overflow = '';
     }
   });
-
-  const nav = document.querySelector('nav');
 
   // ══ RATE MODAL ══════════════════════════════════════════════════
   let selectedGrade = null;
@@ -2355,27 +2353,18 @@
     // Launch flying letters
     launchLetters(btn);
 
-    // Email body via EmailJS (mailto fallback)
-    const subject = encodeURIComponent(`FitZone Курсова работа — Оценка ${selectedGrade}/6 ⭐ от проверяващ`);
+    // Email body
+    const subject = `FitZone Курсова работа — Оценка ${selectedGrade}/6 от проверяващ`;
     const gradeLabels = {'2':'Слаб','3':'Среден','4':'Добър','5':'Отличен','6':'Отличен+'};
-    const bodyLines = [
-      `Здравейте, Божидар!`,
-      ``,
-      `Получавате тази оценка за вашата курсова работа по "Workshop: Claude Agents for Efficient Work".`,
-      ``,
-      `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`,
-      `  ОЦЕНКА: ${selectedGrade}/6 — ${gradeLabels[selectedGrade]} ${gradeEmojis[selectedGrade]}`,
-      `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`,
-      comment ? `
-Коментар:
-${comment}` : '',
-      ``,
-      `Страница: https://badmind.github.io/workshop_claude_agents_coursework/`,
-      ``,
-      `— Изпратено чрез формата за оценяване`,
-      ccEmail ? `— Копие изпратено на: ${ccEmail}` : '',
-    ].filter(l => l !== undefined).join('
-');
+    let bodyText = 'Здравейте, Божидар!\n\n';
+    bodyText += 'Получавате тази оценка за вашата курсова работа по "Workshop: Claude Agents for Efficient Work".\n\n';
+    bodyText += '====================================\n';
+    bodyText += '  ОЦЕНКА: ' + selectedGrade + '/6 — ' + gradeLabels[selectedGrade] + ' ' + gradeEmojis[selectedGrade] + '\n';
+    bodyText += '====================================\n';
+    if (comment) { bodyText += '\nКоментар:\n' + comment + '\n'; }
+    bodyText += '\nСтраница: https://badmind.github.io/workshop_claude_agents_coursework/\n\n';
+    bodyText += '— Изпратено чрез формата за оценяване на страницата';
+    if (ccEmail) { bodyText += '\n— Копие изпратено на: ' + ccEmail; }
 
     // Run animated progress
     await runProgress([
@@ -2388,7 +2377,7 @@ ${comment}` : '',
     // Open mailto
     const to = 'pachovski@gmail.com';
     const cc = ccEmail ? `&cc=${encodeURIComponent(ccEmail)}` : '';
-    window.location.href = `mailto:${to}?subject=${subject}${cc}&body=${encodeURIComponent(bodyLines)}`;
+    window.location.href = `mailto:${to}?subject=${encodeURIComponent(subject)}${cc}&body=${encodeURIComponent(bodyText)}`;
 
     // Show success
     setTimeout(() => {
