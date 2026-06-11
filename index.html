@@ -5,39 +5,112 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>FitZone — Фитнес клуб, кв. Люлин, София</title>
   <meta name="description" content="FitZone е малък фитнес клуб в кв. Люлин, София. Модерна екипировка, персонален подход, достъпни цени. Запишете се за безплатна пробна тренировка.">
+
+  <!-- Skill: Barlow Condensed + Barlow — Best For: Sports, fitness, gyms, athletic brands -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;800&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+
   <style>
-    /* ── TOKENS ─────────────────────────────────── */
+    /* ══════════════════════════════════════════════
+       DESIGN SYSTEM — UI/UX Pro Max Skill Output
+       Style:  Vibrant & Block-based
+       Colors: Energy Orange + Success Green on Dark
+       ══════════════════════════════════════════════ */
     :root {
-      --black:   #0f0f0f;
-      --ink:     #1c1c1c;
-      --steel:   #2a2a2a;
-      --mid:     #555555;
-      --mist:    #a0a0a0;
-      --white:   #f5f4f0;
-      --accent:  #d4f000;   /* electric lime — signature */
-      --accent2: #b8d400;
-      --red:     #e23b2f;
+      /* Skill color tokens */
+      --color-primary:    #F97316;   /* orange-500 — energy */
+      --color-on-primary: #0F172A;
+      --color-secondary:  #FB923C;   /* orange-400 */
+      --color-accent:     #22C55E;   /* green-500 — CTA */
+      --color-on-accent:  #052e16;
+      --color-background: #0F172A;   /* slate-900 */
+      --color-surface:    #1E293B;   /* slate-800 */
+      --color-surface2:   #334155;   /* slate-700 */
+      --color-foreground: #F8FAFC;
+      --color-muted:      #94A3B8;   /* slate-400 */
+      --color-border:     #334155;
+      --color-ring:       #F97316;
+
+      /* Skill typography scale */
       --font-display: 'Barlow Condensed', sans-serif;
-      --font-body:    'Inter', sans-serif;
+      --font-body:    'Barlow', sans-serif;
+
+      /* Skill spacing: 48px+ block gaps */
+      --block-gap:  64px;
+      --section-px: clamp(20px, 5vw, 80px);
+
+      /* Skill animation: 200–300ms */
+      --transition: 200ms ease;
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     html { scroll-behavior: smooth; }
 
     body {
-      background: var(--black);
-      color: var(--white);
+      background: var(--color-background);
+      color: var(--color-foreground);
       font-family: var(--font-body);
       font-size: 16px;
       line-height: 1.6;
       -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
     }
 
-    /* ── NAV ─────────────────────────────────────── */
+    /* ── Skill: cursor-pointer on all clickable elements ── */
+    a, button, [role="button"], select { cursor: pointer; }
+
+    /* ── Skill: Focus states visible for keyboard nav ── */
+    :focus-visible {
+      outline: 2px solid var(--color-ring);
+      outline-offset: 3px;
+      border-radius: 4px;
+    }
+
+    /* ══════════════════════
+       ANIMATED BG PATTERN
+       Skill: animated patterns, block layout 48px+ gaps
+       ══════════════════════ */
+    .pattern-bg {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    /* Diagonal stripe animation */
+    .pattern-bg::before {
+      content: '';
+      position: absolute;
+      inset: -50%;
+      width: 200%;
+      height: 200%;
+      background-image: repeating-linear-gradient(
+        -45deg,
+        transparent 0,
+        transparent 28px,
+        rgba(249,115,22,0.04) 28px,
+        rgba(249,115,22,0.04) 30px
+      );
+      animation: patternDrift 24s linear infinite;
+    }
+
+    @keyframes patternDrift {
+      from { transform: translateX(0) translateY(0); }
+      to   { transform: translateX(42px) translateY(42px); }
+    }
+
+    /* Skill: prefers-reduced-motion respected */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    /* ══════════════════════
+       NAV
+       ══════════════════════ */
     nav {
       position: fixed;
       top: 0; left: 0; right: 0;
@@ -45,571 +118,1001 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 0 40px;
-      height: 60px;
-      background: rgba(15,15,15,0.92);
-      backdrop-filter: blur(8px);
-      border-bottom: 1px solid rgba(255,255,255,0.06);
+      padding: 0 var(--section-px);
+      height: 64px;
+      background: rgba(15,23,42,0.88);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(249,115,22,0.12);
     }
 
     .logo {
       font-family: var(--font-display);
-      font-size: 28px;
-      font-weight: 800;
-      letter-spacing: 0.04em;
-      color: var(--white);
+      font-size: 30px;
+      font-weight: 900;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      color: var(--color-foreground);
       text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 2px;
     }
 
-    .logo span { color: var(--accent); }
+    .logo-accent { color: var(--color-primary); }
+
+    .logo-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--color-accent);
+      display: inline-block;
+      margin-bottom: 4px;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.6; transform: scale(0.8); }
+    }
 
     nav ul {
       list-style: none;
       display: flex;
-      gap: 32px;
+      gap: 36px;
+      align-items: center;
     }
 
     nav ul li a {
-      color: var(--mist);
+      color: var(--color-muted);
       text-decoration: none;
-      font-size: 13px;
-      font-weight: 500;
-      letter-spacing: 0.08em;
+      font-family: var(--font-display);
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
-      transition: color 0.2s;
+      transition: color var(--transition);
+      position: relative;
     }
 
-    nav ul li a:hover { color: var(--accent); }
+    /* Skill: hover states smooth 150-300ms */
+    nav ul li a::after {
+      content: '';
+      position: absolute;
+      left: 0; bottom: -4px;
+      width: 0; height: 2px;
+      background: var(--color-primary);
+      transition: width var(--transition);
+    }
+
+    nav ul li a:hover { color: var(--color-foreground); }
+    nav ul li a:hover::after { width: 100%; }
 
     .nav-cta {
-      background: var(--accent);
-      color: var(--black) !important;
-      padding: 8px 20px;
+      background: var(--color-accent) !important;
+      color: var(--color-on-accent) !important;
+      padding: 9px 22px;
       border-radius: 4px;
-      font-weight: 600 !important;
-      transition: background 0.2s !important;
+      font-weight: 700 !important;
     }
 
-    .nav-cta:hover { background: var(--accent2) !important; color: var(--black) !important; }
+    .nav-cta::after { display: none !important; }
 
-    /* ── HERO ────────────────────────────────────── */
+    .nav-cta:hover {
+      background: #16a34a !important;
+      color: #f0fdf4 !important;
+      transform: translateY(-1px);
+    }
+
+    /* ══════════════════════
+       HERO
+       Skill: CTA above fold, Large type 32px+, scroll-snap
+       ══════════════════════ */
     .hero {
       min-height: 100vh;
       display: flex;
       align-items: center;
-      padding: 100px 40px 60px;
+      padding: 100px var(--section-px) 64px;
       position: relative;
       overflow: hidden;
     }
 
-    /* Diagonal grid background — the signature element */
-    .hero::before {
-      content: '';
+    /* Orange glow blob top-right */
+    .hero-glow {
       position: absolute;
-      inset: 0;
-      background-image:
-        repeating-linear-gradient(
-          -55deg,
-          transparent,
-          transparent 48px,
-          rgba(212,240,0,0.04) 48px,
-          rgba(212,240,0,0.04) 49px
-        );
+      top: -15%;
+      right: -10%;
+      width: 700px;
+      height: 700px;
+      background: radial-gradient(circle at center,
+        rgba(249,115,22,0.18) 0%,
+        rgba(249,115,22,0.06) 45%,
+        transparent 70%);
       pointer-events: none;
     }
 
-    /* Lime glow blob */
-    .hero::after {
-      content: '';
+    /* Green glow blob bottom-left */
+    .hero-glow2 {
       position: absolute;
-      top: -10%;
-      right: -5%;
-      width: 600px;
-      height: 600px;
-      background: radial-gradient(circle, rgba(212,240,0,0.12) 0%, transparent 65%);
+      bottom: -15%;
+      left: -10%;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle at center,
+        rgba(34,197,94,0.12) 0%,
+        transparent 65%);
       pointer-events: none;
     }
 
     .hero-inner {
-      max-width: 1100px;
+      max-width: 1200px;
       margin: 0 auto;
       position: relative;
       z-index: 1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+      width: 100%;
     }
 
-    .hero-eyebrow {
-      font-family: var(--font-body);
-      font-size: 12px;
-      font-weight: 500;
-      letter-spacing: 0.18em;
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(249,115,22,0.12);
+      border: 1px solid rgba(249,115,22,0.3);
+      border-radius: 100px;
+      padding: 6px 16px;
+      font-family: var(--font-display);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 20px;
+      color: var(--color-primary);
+      margin-bottom: 28px;
     }
 
+    .badge-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--color-accent);
+    }
+
+    /* Skill: Large typography 32px+ */
     h1 {
       font-family: var(--font-display);
-      font-size: clamp(72px, 12vw, 140px);
-      font-weight: 800;
-      line-height: 0.9;
+      font-size: clamp(60px, 9vw, 120px);
+      font-weight: 900;
+      line-height: 0.88;
       letter-spacing: -0.01em;
       text-transform: uppercase;
-      color: var(--white);
+      color: var(--color-foreground);
       margin-bottom: 32px;
     }
 
-    h1 .accent-line { color: var(--accent); }
+    h1 .line-orange { color: var(--color-primary); }
+    h1 .line-stroke {
+      -webkit-text-stroke: 2px var(--color-foreground);
+      color: transparent;
+    }
 
     .hero-sub {
-      max-width: 480px;
-      color: var(--mist);
       font-size: 17px;
-      line-height: 1.65;
-      margin-bottom: 44px;
+      color: var(--color-muted);
+      line-height: 1.7;
+      max-width: 440px;
+      margin-bottom: 40px;
     }
 
     .hero-actions {
       display: flex;
-      gap: 16px;
+      gap: 14px;
       flex-wrap: wrap;
+      align-items: center;
     }
 
+    /* ── PRIMARY BUTTON — Skill: bold hover (color shift) ── */
     .btn-primary {
-      display: inline-block;
-      background: var(--accent);
-      color: var(--black);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--color-accent);
+      color: var(--color-on-accent);
       font-family: var(--font-display);
-      font-size: 20px;
-      font-weight: 700;
-      letter-spacing: 0.04em;
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: 0.06em;
       text-transform: uppercase;
-      padding: 16px 36px;
+      padding: 16px 32px;
       border-radius: 4px;
       text-decoration: none;
-      transition: background 0.2s, transform 0.15s;
+      transition: background var(--transition), transform var(--transition);
+      border: none;
     }
 
-    .btn-primary:hover { background: var(--accent2); transform: translateY(-1px); }
+    .btn-primary:hover {
+      background: #16a34a;
+      transform: translateY(-2px);
+    }
 
     .btn-outline {
-      display: inline-block;
-      border: 1px solid rgba(255,255,255,0.25);
-      color: var(--white);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 2px solid var(--color-border);
+      color: var(--color-foreground);
       font-family: var(--font-display);
-      font-size: 20px;
-      font-weight: 600;
-      letter-spacing: 0.04em;
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
       text-transform: uppercase;
-      padding: 16px 36px;
+      padding: 14px 32px;
       border-radius: 4px;
       text-decoration: none;
-      transition: border-color 0.2s, color 0.2s;
+      transition: border-color var(--transition), color var(--transition), transform var(--transition);
     }
 
-    .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+    .btn-outline:hover {
+      border-color: var(--color-primary);
+      color: var(--color-primary);
+      transform: translateY(-2px);
+    }
 
-    /* Stats strip */
+    /* ── HERO STATS ── */
     .hero-stats {
-      display: flex;
-      gap: 48px;
-      margin-top: 64px;
-      padding-top: 40px;
-      border-top: 1px solid rgba(255,255,255,0.08);
-      flex-wrap: wrap;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2px;
+      background: var(--color-border);
+      border: 1px solid var(--color-border);
+      border-radius: 8px;
+      overflow: hidden;
     }
+
+    .stat-block {
+      background: var(--color-surface);
+      padding: 28px 24px;
+      position: relative;
+    }
+
+    .stat-block::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 3px;
+      background: var(--color-primary);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.4s ease;
+    }
+
+    .stat-block:hover::before { transform: scaleX(1); }
 
     .stat-num {
       font-family: var(--font-display);
-      font-size: 42px;
-      font-weight: 800;
-      color: var(--white);
+      font-size: 48px;
+      font-weight: 900;
       line-height: 1;
+      color: var(--color-foreground);
+      letter-spacing: -0.02em;
     }
 
-    .stat-num span { color: var(--accent); }
-    .stat-label { font-size: 13px; color: var(--mist); margin-top: 4px; }
+    .stat-num sup {
+      font-size: 24px;
+      color: var(--color-primary);
+      font-weight: 700;
+    }
 
-    /* ── SECTION SHARED ──────────────────────────── */
-    section { padding: 96px 40px; }
-    .section-inner { max-width: 1100px; margin: 0 auto; }
-
-    .section-label {
-      font-size: 11px;
+    .stat-label {
+      font-size: 13px;
+      color: var(--color-muted);
+      margin-top: 6px;
       font-weight: 500;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    /* ══════════════════════
+       SECTION SHARED — Skill: Block layout 48px+ gaps
+       ══════════════════════ */
+    section {
+      padding: var(--block-gap) var(--section-px);
+    }
+
+    .section-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-display);
+      font-size: 12px;
+      font-weight: 700;
       letter-spacing: 0.2em;
       text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 12px;
+      color: var(--color-primary);
+      margin-bottom: 16px;
     }
 
+    .eyebrow-line {
+      width: 32px;
+      height: 2px;
+      background: var(--color-primary);
+      border-radius: 1px;
+    }
+
+    /* Skill: Large typography 32px+ */
     h2 {
       font-family: var(--font-display);
-      font-size: clamp(40px, 6vw, 72px);
-      font-weight: 800;
+      font-size: clamp(36px, 6vw, 72px);
+      font-weight: 900;
       text-transform: uppercase;
-      line-height: 0.95;
-      color: var(--white);
-      margin-bottom: 48px;
+      line-height: 0.92;
+      color: var(--color-foreground);
+      letter-spacing: -0.01em;
     }
 
-    /* ── SERVICES ────────────────────────────────── */
-    .services { background: var(--ink); }
+    h2 .accent { color: var(--color-primary); }
+    h2 .stroke {
+      -webkit-text-stroke: 2px var(--color-foreground);
+      color: transparent;
+    }
+
+    /* ══════════════════════
+       SERVICES — Vibrant block grid
+       ══════════════════════ */
+    .services { background: var(--color-surface); position: relative; }
+
+    .services-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 48px;
+      gap: 32px;
+      flex-wrap: wrap;
+    }
 
     .services-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      grid-template-columns: repeat(4, 1fr);
       gap: 2px;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.05);
+      background: var(--color-border);
     }
 
     .service-card {
-      background: var(--ink);
+      background: var(--color-background);
       padding: 40px 32px;
-      transition: background 0.2s;
+      position: relative;
+      overflow: hidden;
+      transition: background var(--transition);
     }
 
-    .service-card:hover { background: var(--steel); }
+    /* Skill: bold hover (color shift) */
+    .service-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 100%; height: 4px;
+      background: var(--card-color, var(--color-primary));
+      transform: scaleX(0);
+      transition: transform 0.25s ease;
+    }
 
+    .service-card:hover { background: var(--color-surface); }
+    .service-card:hover::after { transform: scaleX(1); }
+
+    .service-card:nth-child(1) { --card-color: var(--color-primary); }
+    .service-card:nth-child(2) { --card-color: var(--color-accent); }
+    .service-card:nth-child(3) { --card-color: #a78bfa; }
+    .service-card:nth-child(4) { --card-color: #38bdf8; }
+
+    /* Skill: SVG icons only — no emojis */
     .service-icon {
-      font-size: 32px;
-      margin-bottom: 20px;
-      display: block;
+      width: 48px;
+      height: 48px;
+      margin-bottom: 24px;
+      color: var(--card-color, var(--color-primary));
     }
 
     .service-title {
       font-family: var(--font-display);
-      font-size: 26px;
-      font-weight: 700;
+      font-size: 24px;
+      font-weight: 800;
       text-transform: uppercase;
-      color: var(--white);
+      color: var(--color-foreground);
       margin-bottom: 12px;
+      letter-spacing: 0.02em;
     }
 
     .service-desc {
       font-size: 14px;
-      color: var(--mist);
-      line-height: 1.6;
+      color: var(--color-muted);
+      line-height: 1.65;
     }
 
-    /* ── PRICING ─────────────────────────────────── */
-    .pricing { background: var(--black); }
+    /* ══════════════════════
+       PRICING — Vibrant blocks
+       ══════════════════════ */
+    .pricing { background: var(--color-background); position: relative; overflow: hidden; }
 
     .pricing-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 16px;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2px;
+      background: var(--color-border);
+      border: 1px solid var(--color-border);
+      margin-top: 56px;
     }
 
     .price-card {
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 6px;
-      padding: 36px 28px;
+      background: var(--color-surface);
+      padding: 40px 28px;
       position: relative;
-      transition: border-color 0.2s;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      transition: background var(--transition);
     }
 
-    .price-card:hover { border-color: rgba(212,240,0,0.4); }
+    .price-card:hover { background: var(--color-surface2); }
 
+    /* Featured card — Skill: one primary CTA per screen */
     .price-card.featured {
-      border-color: var(--accent);
-      background: rgba(212,240,0,0.04);
+      background: var(--color-primary);
     }
 
-    .featured-tag {
-      position: absolute;
-      top: -12px;
-      left: 24px;
-      background: var(--accent);
-      color: var(--black);
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.12em;
+    .price-card.featured:hover { background: #ea6c08; }
+
+    .featured-label {
+      display: inline-block;
+      background: var(--color-on-primary);
+      color: var(--color-primary);
+      font-family: var(--font-display);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.2em;
       text-transform: uppercase;
       padding: 4px 12px;
       border-radius: 2px;
+      margin-bottom: 24px;
     }
 
     .price-name {
       font-family: var(--font-display);
-      font-size: 22px;
-      font-weight: 700;
+      font-size: 20px;
+      font-weight: 800;
       text-transform: uppercase;
-      color: var(--white);
+      letter-spacing: 0.08em;
+      color: var(--color-muted);
       margin-bottom: 20px;
     }
 
+    .price-card.featured .price-name { color: rgba(15,23,42,0.7); }
+
     .price-amount {
       font-family: var(--font-display);
-      font-size: 52px;
-      font-weight: 800;
+      font-size: 64px;
+      font-weight: 900;
       line-height: 1;
-      color: var(--accent);
+      letter-spacing: -0.02em;
+      color: var(--color-foreground);
       margin-bottom: 4px;
     }
 
+    .price-card.featured .price-amount { color: var(--color-on-primary); }
+
+    .price-currency {
+      font-size: 28px;
+      font-weight: 700;
+      vertical-align: top;
+      line-height: 1.6;
+      color: var(--color-primary);
+    }
+
+    .price-card.featured .price-currency { color: var(--color-on-primary); }
+
     .price-period {
       font-size: 13px;
-      color: var(--mist);
+      color: var(--color-muted);
       margin-bottom: 28px;
+      font-weight: 500;
     }
+
+    .price-card.featured .price-period { color: rgba(15,23,42,0.65); }
+
+    .price-divider {
+      height: 1px;
+      background: var(--color-border);
+      margin-bottom: 24px;
+    }
+
+    .price-card.featured .price-divider { background: rgba(15,23,42,0.2); }
 
     .price-features {
       list-style: none;
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 12px;
+      flex: 1;
     }
 
     .price-features li {
       font-size: 14px;
-      color: var(--mist);
-      padding-left: 20px;
-      position: relative;
+      color: var(--color-muted);
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
     }
 
-    .price-features li::before {
-      content: '→';
-      position: absolute;
-      left: 0;
-      color: var(--accent);
-      font-size: 12px;
+    .price-card.featured .price-features li { color: rgba(15,23,42,0.8); }
+
+    .check-icon {
+      width: 16px;
+      height: 16px;
+      color: var(--color-accent);
+      flex-shrink: 0;
+      margin-top: 2px;
     }
 
-    /* ── SCHEDULE ────────────────────────────────── */
-    .schedule { background: var(--ink); }
+    .price-card.featured .check-icon { color: var(--color-on-primary); }
 
-    .schedule-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 14px;
+    /* ══════════════════════
+       SCHEDULE
+       ══════════════════════ */
+    .schedule { background: var(--color-surface); }
+
+    .schedule-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      background: var(--color-border);
+      margin-top: 56px;
     }
 
-    .schedule-table thead th {
-      font-family: var(--font-display);
-      font-size: 16px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      color: var(--accent);
-      padding: 12px 16px;
-      text-align: left;
-      border-bottom: 1px solid rgba(255,255,255,0.12);
+    .schedule-card {
+      background: var(--color-background);
+      padding: 28px 24px;
+      border-left: 3px solid var(--sched-color, var(--color-border));
+      transition: background var(--transition), border-color var(--transition);
     }
 
-    .schedule-table tbody tr {
-      border-bottom: 1px solid rgba(255,255,255,0.05);
-      transition: background 0.15s;
-    }
+    .schedule-card:hover { background: var(--color-surface); }
 
-    .schedule-table tbody tr:hover { background: rgba(255,255,255,0.04); }
+    .schedule-card:nth-child(1) { --sched-color: var(--color-primary); }
+    .schedule-card:nth-child(2) { --sched-color: var(--color-accent); }
+    .schedule-card:nth-child(3) { --sched-color: #a78bfa; }
+    .schedule-card:nth-child(4) { --sched-color: var(--color-primary); }
+    .schedule-card:nth-child(5) { --sched-color: #38bdf8; }
+    .schedule-card:nth-child(6) { --sched-color: var(--color-accent); }
 
-    .schedule-table tbody td {
-      padding: 14px 16px;
-      color: var(--mist);
-      vertical-align: middle;
-    }
-
-    .schedule-table tbody td:first-child {
-      color: var(--white);
-      font-weight: 500;
-      font-size: 15px;
-    }
-
-    .badge {
+    .sched-badge {
       display: inline-block;
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 0.08em;
+      font-family: var(--font-display);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
       text-transform: uppercase;
       padding: 3px 10px;
       border-radius: 2px;
+      background: rgba(255,255,255,0.06);
+      color: var(--sched-color);
+      margin-bottom: 14px;
     }
 
-    .badge-cardio  { background: rgba(226,59,47,0.15); color: #e23b2f; }
-    .badge-strength{ background: rgba(212,240,0,0.12); color: var(--accent); }
-    .badge-yoga    { background: rgba(100,160,255,0.12); color: #7eb3ff; }
-    .badge-hiit    { background: rgba(255,165,0,0.12); color: #ffa533; }
-
-    /* ── TRIAL FORM ──────────────────────────────── */
-    .trial { background: var(--black); }
-
-    .trial-inner {
-      max-width: 680px;
-      margin: 0 auto;
-      text-align: center;
-    }
-
-    .trial-inner h2 { margin-bottom: 16px; }
-    .trial-inner p { color: var(--mist); margin-bottom: 40px; }
-
-    .form-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-bottom: 12px;
-    }
-
-    .form-row.single { grid-template-columns: 1fr; }
-
-    input, select, textarea {
-      width: 100%;
-      background: var(--ink);
-      border: 1px solid rgba(255,255,255,0.12);
-      color: var(--white);
-      font-family: var(--font-body);
-      font-size: 15px;
-      padding: 14px 16px;
-      border-radius: 4px;
-      outline: none;
-      transition: border-color 0.2s;
-      appearance: none;
-    }
-
-    input::placeholder, textarea::placeholder { color: var(--mid); }
-    input:focus, select:focus, textarea:focus { border-color: var(--accent); }
-
-    textarea { resize: vertical; min-height: 100px; }
-
-    .form-submit {
-      margin-top: 16px;
-      width: 100%;
-      background: var(--accent);
-      color: var(--black);
+    .sched-title {
       font-family: var(--font-display);
       font-size: 22px;
       font-weight: 800;
       text-transform: uppercase;
-      letter-spacing: 0.06em;
-      padding: 18px;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      transition: background 0.2s, transform 0.15s;
+      color: var(--color-foreground);
+      margin-bottom: 8px;
+      letter-spacing: 0.02em;
     }
 
-    .form-submit:hover { background: var(--accent2); transform: translateY(-1px); }
+    .sched-meta {
+      font-size: 13px;
+      color: var(--color-muted);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    /* ══════════════════════
+       TRIAL FORM
+       Skill: visible labels, error below field, loading state,
+       required indicators, submit feedback
+       ══════════════════════ */
+    .trial { background: var(--color-background); position: relative; overflow: hidden; }
+
+    /* Orange accent block behind form */
+    .trial::before {
+      content: '';
+      position: absolute;
+      top: 0; right: 0;
+      width: 40%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(249,115,22,0.06) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .trial-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+      position: relative;
+      z-index: 1;
+    }
+
+    .trial-copy h2 { margin-bottom: 20px; }
+
+    .trial-copy p {
+      font-size: 17px;
+      color: var(--color-muted);
+      line-height: 1.7;
+      margin-bottom: 40px;
+    }
+
+    .trial-perk {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    .perk-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 4px;
+      background: rgba(249,115,22,0.12);
+      border: 1px solid rgba(249,115,22,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      color: var(--color-primary);
+    }
+
+    .perk-icon svg { width: 20px; height: 20px; }
+
+    .perk-text strong {
+      display: block;
+      font-family: var(--font-display);
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--color-foreground);
+      margin-bottom: 2px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .perk-text span { font-size: 13px; color: var(--color-muted); }
+
+    /* Form */
+    .form-group {
+      margin-bottom: 16px;
+      position: relative;
+    }
+
+    /* Skill: visible label per input — not placeholder only */
+    label {
+      display: block;
+      font-family: var(--font-display);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--color-muted);
+      margin-bottom: 8px;
+    }
+
+    .required-star { color: var(--color-primary); margin-left: 2px; }
+
+    /* Skill: touch-friendly input ≥44px */
+    input, select, textarea {
+      width: 100%;
+      min-height: 48px;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      color: var(--color-foreground);
+      font-family: var(--font-body);
+      font-size: 15px;
+      padding: 12px 16px;
+      border-radius: 4px;
+      outline: none;
+      transition: border-color var(--transition), box-shadow var(--transition);
+      appearance: none;
+    }
+
+    input::placeholder, textarea::placeholder { color: var(--color-surface2); }
+
+    /* Skill: focus states visible */
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 3px rgba(249,115,22,0.15);
+    }
+
+    textarea { resize: vertical; min-height: 100px; }
+
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+    .form-submit {
+      width: 100%;
+      min-height: 56px;
+      background: var(--color-accent);
+      color: var(--color-on-accent);
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 0 32px;
+      border: none;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 8px;
+      transition: background var(--transition), transform var(--transition);
+    }
+
+    /* Skill: loading button — disable during async */
+    .form-submit:hover {
+      background: #16a34a;
+      transform: translateY(-1px);
+    }
+
+    .form-submit:active { transform: translateY(0); }
 
     .form-note {
       font-size: 12px;
-      color: var(--mid);
-      margin-top: 12px;
+      color: var(--color-surface2);
+      margin-top: 10px;
+      text-align: center;
+      letter-spacing: 0.04em;
     }
 
-    /* ── LOCATION ────────────────────────────────── */
-    .location { background: var(--ink); }
+    /* Skill: success feedback — checkmark, toast, color flash */
+    .success-msg {
+      display: none;
+      background: rgba(34,197,94,0.08);
+      border: 1px solid rgba(34,197,94,0.3);
+      border-radius: 4px;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .success-msg .success-icon {
+      width: 48px; height: 48px;
+      background: rgba(34,197,94,0.15);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px;
+      color: var(--color-accent);
+    }
+
+    .success-title {
+      font-family: var(--font-display);
+      font-size: 26px;
+      font-weight: 800;
+      text-transform: uppercase;
+      color: var(--color-accent);
+      letter-spacing: 0.04em;
+    }
+
+    .success-sub {
+      font-size: 14px;
+      color: var(--color-muted);
+      margin-top: 8px;
+    }
+
+    /* ══════════════════════
+       LOCATION
+       ══════════════════════ */
+    .location { background: var(--color-surface); }
 
     .location-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 60px;
+      gap: 64px;
       align-items: start;
+      margin-top: 56px;
     }
 
-    .location-info h3 {
-      font-family: var(--font-display);
-      font-size: 28px;
-      font-weight: 700;
-      text-transform: uppercase;
-      color: var(--white);
-      margin-bottom: 24px;
-    }
-
-    .info-row {
+    .info-block {
       display: flex;
       gap: 16px;
-      margin-bottom: 20px;
+      margin-bottom: 28px;
       align-items: flex-start;
     }
 
-    .info-icon { font-size: 20px; flex-shrink: 0; margin-top: 2px; }
-
-    .info-label {
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 4px;
-    }
-
-    .info-value { color: var(--white); font-size: 15px; }
-    .info-value.muted { color: var(--mist); }
-
-    .map-placeholder {
-      background: var(--steel);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 6px;
-      height: 320px;
+    .info-icon {
+      width: 44px; height: 44px;
+      border-radius: 4px;
+      background: rgba(249,115,22,0.1);
+      border: 1px solid rgba(249,115,22,0.2);
       display: flex;
       align-items: center;
       justify-content: center;
-      flex-direction: column;
-      gap: 12px;
-      color: var(--mid);
-      font-size: 14px;
-      text-decoration: none;
-      transition: border-color 0.2s;
+      flex-shrink: 0;
+      color: var(--color-primary);
     }
 
-    .map-placeholder:hover { border-color: rgba(212,240,0,0.3); }
-    .map-placeholder span { font-size: 40px; }
-    .map-placeholder p { color: var(--accent); font-size: 13px; font-weight: 500; }
+    .info-icon svg { width: 20px; height: 20px; }
 
-    /* ── FOOTER ──────────────────────────────────── */
+    .info-label {
+      font-family: var(--font-display);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--color-primary);
+      margin-bottom: 4px;
+    }
+
+    .info-value { font-size: 15px; color: var(--color-foreground); }
+    .info-sub { font-size: 13px; color: var(--color-muted); margin-top: 2px; }
+
+    .map-link {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      height: 320px;
+      background: var(--color-background);
+      border: 1px solid var(--color-border);
+      border-radius: 8px;
+      text-decoration: none;
+      transition: border-color var(--transition), background var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .map-link::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 20px,
+        rgba(249,115,22,0.02) 20px,
+        rgba(249,115,22,0.02) 21px
+      );
+    }
+
+    .map-link:hover {
+      border-color: rgba(249,115,22,0.4);
+      background: rgba(249,115,22,0.03);
+    }
+
+    .map-icon-wrap {
+      width: 64px; height: 64px;
+      border-radius: 50%;
+      background: rgba(249,115,22,0.1);
+      border: 1px solid rgba(249,115,22,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-primary);
+      position: relative;
+      z-index: 1;
+    }
+
+    .map-icon-wrap svg { width: 28px; height: 28px; }
+
+    .map-address {
+      font-family: var(--font-display);
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--color-foreground);
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .map-cta {
+      font-family: var(--font-display);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--color-primary);
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ══════════════════════
+       FOOTER
+       ══════════════════════ */
     footer {
-      background: var(--black);
-      border-top: 1px solid rgba(255,255,255,0.06);
-      padding: 40px;
+      background: var(--color-on-primary);
+      border-top: 1px solid rgba(249,115,22,0.15);
+      padding: 48px var(--section-px);
+    }
+
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-size: 13px;
-      color: var(--mid);
       flex-wrap: wrap;
-      gap: 16px;
+      gap: 24px;
     }
 
-    footer a { color: var(--mist); text-decoration: none; }
-    footer a:hover { color: var(--accent); }
-
-    /* ── SUCCESS MESSAGE ─────────────────────────── */
-    .success-msg {
-      display: none;
-      background: rgba(212,240,0,0.08);
-      border: 1px solid var(--accent);
-      border-radius: 4px;
-      padding: 20px;
-      color: var(--accent);
-      font-family: var(--font-display);
-      font-size: 22px;
-      font-weight: 700;
-      text-transform: uppercase;
-      margin-top: 16px;
+    .footer-copy {
+      font-size: 13px;
+      color: var(--color-surface2);
     }
 
-    /* ── RESPONSIVE ──────────────────────────────── */
+    .footer-contact {
+      display: flex;
+      gap: 24px;
+    }
+
+    .footer-contact a {
+      font-size: 13px;
+      color: var(--color-muted);
+      text-decoration: none;
+      transition: color var(--transition);
+    }
+
+    .footer-contact a:hover { color: var(--color-primary); }
+
+    /* ══════════════════════
+       RESPONSIVE
+       Skill: 375/768/1024/1440 breakpoints, mobile-first
+       ══════════════════════ */
+    @media (max-width: 1024px) {
+      .services-grid  { grid-template-columns: repeat(2, 1fr); }
+      .pricing-grid   { grid-template-columns: repeat(2, 1fr); }
+      .schedule-grid  { grid-template-columns: repeat(2, 1fr); }
+    }
+
     @media (max-width: 768px) {
+      :root { --block-gap: 48px; }
+
       nav ul { display: none; }
       nav { padding: 0 20px; }
-      .hero { padding: 90px 20px 48px; }
-      section { padding: 64px 20px; }
-      .form-row { grid-template-columns: 1fr; }
-      .location-grid { grid-template-columns: 1fr; gap: 40px; }
-      footer { padding: 32px 20px; flex-direction: column; text-align: center; }
+
+      .hero-inner { grid-template-columns: 1fr; gap: 48px; }
+      .hero-stats { grid-template-columns: repeat(2, 1fr); }
+
+      .services-grid  { grid-template-columns: 1fr; }
+      .pricing-grid   { grid-template-columns: 1fr; }
+      .schedule-grid  { grid-template-columns: 1fr; }
+
+      .trial-layout   { grid-template-columns: 1fr; gap: 40px; }
+      .location-grid  { grid-template-columns: 1fr; gap: 40px; }
+      .form-row       { grid-template-columns: 1fr; }
+
+      .services-header { flex-direction: column; align-items: flex-start; }
+      footer .footer-inner { flex-direction: column; text-align: center; }
     }
 
-    /* ── REDUCED MOTION ──────────────────────────── */
-    @media (prefers-reduced-motion: reduce) {
-      * { transition: none !important; }
+    @media (max-width: 375px) {
+      h1 { font-size: 52px; }
+      h2 { font-size: 36px; }
+      .hero-stats { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
 
-<!-- NAV -->
-<nav>
-  <a href="#" class="logo">Fit<span>Zone</span></a>
+<!-- ══ NAV ══════════════════════════════════════════════════════════ -->
+<nav aria-label="Главна навигация">
+  <a href="#" class="logo" aria-label="FitZone — начало">
+    Fit<span class="logo-accent">Zone</span><span class="logo-dot" aria-hidden="true"></span>
+  </a>
   <ul>
     <li><a href="#services">Услуги</a></li>
     <li><a href="#pricing">Цени</a></li>
@@ -619,319 +1122,486 @@
   </ul>
 </nav>
 
-<!-- HERO -->
-<section class="hero" id="home">
+<!-- ══ HERO ════════════════════════════════════════════════════════= -->
+<section class="hero" id="home" aria-labelledby="hero-h1">
+  <div class="pattern-bg" aria-hidden="true"></div>
+  <div class="hero-glow" aria-hidden="true"></div>
+  <div class="hero-glow2" aria-hidden="true"></div>
+
   <div class="hero-inner">
-    <p class="hero-eyebrow">Фитнес клуб · кв. Люлин, София</p>
-    <h1>
-      Тренирай<br>
-      <span class="accent-line">без</span><br>
-      извинения
-    </h1>
-    <p class="hero-sub">
-      FitZone е малък фитнес клуб с персонален подход. 
-      Без наемни ценоразписи, без анонимност — само ти, 
-      оборудването и треньорите, които те познават по име.
-    </p>
-    <div class="hero-actions">
-      <a href="#trial" class="btn-primary">Безплатна пробна тренировка</a>
-      <a href="#pricing" class="btn-outline">Вижте цените</a>
-    </div>
-    <div class="hero-stats">
-      <div>
-        <div class="stat-num">7<span>г</span></div>
-        <div class="stat-label">Работим в квартала</div>
+    <div class="hero-left">
+      <div class="hero-badge" aria-label="Фитнес клуб в кв. Люлин, София">
+        <span class="badge-dot" aria-hidden="true"></span>
+        Кв. Люлин · София · Отворено
       </div>
-      <div>
-        <div class="stat-num">340<span>+</span></div>
+
+      <h1 id="hero-h1">
+        Тренирай<br>
+        <span class="line-orange">без</span><br>
+        <span class="line-stroke">компромис</span>
+      </h1>
+
+      <p class="hero-sub">
+        7 години правим фитнеса в Люлин по-достъпен и по-личен.
+        Без анонимност — само ти, оборудването и треньорите, 
+        които те познават по име.
+      </p>
+
+      <div class="hero-actions">
+        <a href="#trial" class="btn-primary">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          Пробна тренировка
+        </a>
+        <a href="#pricing" class="btn-outline">
+          Виж цените
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="hero-stats" role="list" aria-label="Ключови факти за FitZone">
+      <div class="stat-block" role="listitem">
+        <div class="stat-num">7<sup>г</sup></div>
+        <div class="stat-label">В квартала</div>
+      </div>
+      <div class="stat-block" role="listitem">
+        <div class="stat-num">340<sup>+</sup></div>
         <div class="stat-label">Активни членове</div>
       </div>
-      <div>
-        <div class="stat-num">6<span>:</span>00</div>
-        <div class="stat-label">Отваряме рано</div>
+      <div class="stat-block" role="listitem">
+        <div class="stat-num">06<sup>:00</sup></div>
+        <div class="stat-label">Отваряме</div>
       </div>
-      <div>
-        <div class="stat-num">4<span>★</span></div>
+      <div class="stat-block" role="listitem">
+        <div class="stat-num">4</div>
         <div class="stat-label">Треньори в екипа</div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- SERVICES -->
-<section class="services" id="services">
+<!-- ══ SERVICES ════════════════════════════════════════════════════ -->
+<section class="services" id="services" aria-labelledby="services-h2">
+  <div class="pattern-bg" aria-hidden="true"></div>
   <div class="section-inner">
-    <p class="section-label">Какво предлагаме</p>
-    <h2>Услуги</h2>
-    <div class="services-grid">
-      <div class="service-card">
-        <span class="service-icon">🏋️</span>
+    <div class="services-header">
+      <div>
+        <div class="section-eyebrow">
+          <span class="eyebrow-line" aria-hidden="true"></span>
+          Какво предлагаме
+        </div>
+        <h2 id="services-h2">
+          <span class="accent">Услуги</span><br>
+          <span class="stroke">за теб</span>
+        </h2>
+      </div>
+      <p style="max-width:340px;color:var(--color-muted);font-size:15px;line-height:1.7">
+        Всичко необходимо на едно място — от свободни тежести до групови тренировки 
+        с опитни треньори.
+      </p>
+    </div>
+
+    <div class="services-grid" role="list">
+      <article class="service-card" role="listitem">
+        <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M6 5a1 1 0 0 0-1 1v3M2 9h20M18 5a1 1 0 0 1 1 1v3M6 19a1 1 0 0 1-1-1v-3m13 4a1 1 0 0 0 1-1v-3M2 15h20M9 9v6M15 9v6"/>
+        </svg>
         <div class="service-title">Зала за тежести</div>
         <p class="service-desc">Пълна свободна зона с щанги, гири и машини. Оборудване Technogym, поддържано с грижа.</p>
-      </div>
-      <div class="service-card">
-        <span class="service-icon">🚴</span>
+      </article>
+
+      <article class="service-card" role="listitem">
+        <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/>
+        </svg>
         <div class="service-title">Кардио зона</div>
         <p class="service-desc">10 бягащи пътеки, 8 велоергометри, елиптични машини. Всяко устройство с индивидуален екран.</p>
-      </div>
-      <div class="service-card">
-        <span class="service-icon">👥</span>
+      </article>
+
+      <article class="service-card" role="listitem">
+        <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>
+        </svg>
         <div class="service-title">Групови тренировки</div>
         <p class="service-desc">Йога, пилатес, HIIT и кардио боксинг. До 12 участника на група — без да се губиш в тълпата.</p>
-      </div>
-      <div class="service-card">
-        <span class="service-icon">📋</span>
+      </article>
+
+      <article class="service-card" role="listitem">
+        <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+        </svg>
         <div class="service-title">Личен треньор</div>
         <p class="service-desc">Индивидуална програма, измервания и проследяване на напредъка. Първата консултация е безплатна.</p>
-      </div>
+      </article>
     </div>
   </div>
 </section>
 
-<!-- PRICING -->
-<section class="pricing" id="pricing">
+<!-- ══ PRICING ══════════════════════════════════════════════════════ -->
+<section class="pricing" id="pricing" aria-labelledby="pricing-h2">
+  <div class="pattern-bg" aria-hidden="true"></div>
   <div class="section-inner">
-    <p class="section-label">Абонаментни планове</p>
-    <h2>Цени</h2>
-    <div class="pricing-grid">
+    <div class="section-eyebrow">
+      <span class="eyebrow-line" aria-hidden="true"></span>
+      Абонаментни планове
+    </div>
+    <h2 id="pricing-h2">Избери <span class="accent">своя</span><br>план</h2>
 
-      <div class="price-card">
+    <div class="pricing-grid" role="list">
+      <article class="price-card" role="listitem">
         <div class="price-name">Еднократно</div>
-        <div class="price-amount">10</div>
-        <div class="price-period">лв. / посещение</div>
-        <ul class="price-features">
-          <li>Достъп до фитнес залата</li>
-          <li>Съблекалня и душ</li>
-          <li>Без ангажимент</li>
+        <div class="price-amount"><span class="price-currency">лв</span>10</div>
+        <div class="price-period">на посещение</div>
+        <div class="price-divider" aria-hidden="true"></div>
+        <ul class="price-features" aria-label="Включено в еднократен план">
+          <li>
+            <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+            Достъп до фитнес залата
+          </li>
+          <li>
+            <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+            Съблекалня и душ
+          </li>
+          <li>
+            <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+            Без ангажимент
+          </li>
         </ul>
-      </div>
+      </article>
 
-      <div class="price-card">
+      <article class="price-card" role="listitem">
         <div class="price-name">Месечен</div>
-        <div class="price-amount">55</div>
-        <div class="price-period">лв. / месец</div>
+        <div class="price-amount"><span class="price-currency">лв</span>55</div>
+        <div class="price-period">на месец</div>
+        <div class="price-divider" aria-hidden="true"></div>
         <ul class="price-features">
-          <li>Неограничени посещения</li>
-          <li>Достъп до кардио зона</li>
-          <li>Съблекалня и душ</li>
+          <li><svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Неограничени посещения</li>
+          <li><svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Достъп до кардио зона</li>
+          <li><svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Съблекалня и душ</li>
         </ul>
-      </div>
+      </article>
 
-      <div class="price-card featured">
-        <div class="featured-tag">Най-популярен</div>
+      <article class="price-card featured" role="listitem" aria-label="Най-популярен план">
+        <div class="featured-label" aria-label="Препоръчан план">★ Най-популярен</div>
         <div class="price-name">Месечен Plus</div>
-        <div class="price-amount">79</div>
-        <div class="price-period">лв. / месец</div>
+        <div class="price-amount"><span class="price-currency">лв</span>79</div>
+        <div class="price-period">на месец</div>
+        <div class="price-divider" aria-hidden="true"></div>
         <ul class="price-features">
-          <li>Всичко от Месечен</li>
-          <li>2 групови тренировки седмично</li>
-          <li>Начална консултация с треньор</li>
-          <li>Проследяване на напредъка</li>
+          <li><svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Всичко от Месечен</li>
+          <li><svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>2 групови тренировки/седм.</li>
+          <li><svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Начална консултация с треньор</li>
+          <li><svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Проследяване на напредъка</li>
         </ul>
-      </div>
+      </article>
 
-      <div class="price-card">
+      <article class="price-card" role="listitem">
         <div class="price-name">Годишен</div>
-        <div class="price-amount">599</div>
-        <div class="price-period">лв. / година (≈50 лв./мес.)</div>
+        <div class="price-amount"><span class="price-currency">лв</span>599</div>
+        <div class="price-period">на година · ≈ 50 лв./мес.</div>
+        <div class="price-divider" aria-hidden="true"></div>
         <ul class="price-features">
-          <li>Всичко от Plus</li>
-          <li>Неограничени групови</li>
-          <li>1 безплатна тренировка с ЛТ / мес.</li>
-          <li>Приоритетна резервация</li>
+          <li><svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Всичко от Plus</li>
+          <li><svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Неограничени групови</li>
+          <li><svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>1 безплатна тренировка с ЛТ/мес.</li>
+          <li><svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Приоритетна резервация</li>
         </ul>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ══ SCHEDULE ════════════════════════════════════════════════════ -->
+<section class="schedule" id="schedule" aria-labelledby="schedule-h2">
+  <div class="section-inner">
+    <div class="section-eyebrow">
+      <span class="eyebrow-line" aria-hidden="true"></span>
+      Седмична програма
+    </div>
+    <h2 id="schedule-h2">Групови<br><span class="accent">тренировки</span></h2>
+
+    <div class="schedule-grid" role="list">
+      <article class="schedule-card" role="listitem">
+        <div class="sched-badge">Йога</div>
+        <div class="sched-title">Сутрешна йога</div>
+        <div class="sched-meta">
+          <span>Пон / Сря / Пет · 07:00 – 08:00</span>
+          <span>Мария В.</span>
+        </div>
+      </article>
+
+      <article class="schedule-card" role="listitem">
+        <div class="sched-badge">HIIT</div>
+        <div class="sched-title">Максимален импулс</div>
+        <div class="sched-meta">
+          <span>Вт / Чет · 07:30 – 08:15</span>
+          <span>Стефан Н.</span>
+        </div>
+      </article>
+
+      <article class="schedule-card" role="listitem">
+        <div class="sched-badge">Сила</div>
+        <div class="sched-title">Силова функционална</div>
+        <div class="sched-meta">
+          <span>Пон / Сря / Пет · 18:30 – 19:30</span>
+          <span>Димитър Т.</span>
+        </div>
+      </article>
+
+      <article class="schedule-card" role="listitem">
+        <div class="sched-badge">Кардио</div>
+        <div class="sched-title">Кардио боксинг</div>
+        <div class="sched-meta">
+          <span>Вт / Чет · 19:00 – 20:00</span>
+          <span>Стефан Н.</span>
+        </div>
+      </article>
+
+      <article class="schedule-card" role="listitem">
+        <div class="sched-badge">Йога</div>
+        <div class="sched-title">Пилатес</div>
+        <div class="sched-meta">
+          <span>Сряда · 10:00 – 11:00</span>
+          <span>Мария В.</span>
+        </div>
+      </article>
+
+      <article class="schedule-card" role="listitem">
+        <div class="sched-badge">HIIT</div>
+        <div class="sched-title">Събота Open HIIT</div>
+        <div class="sched-meta">
+          <span>Събота · 10:00 – 11:00</span>
+          <span>Целият екип</span>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ══ TRIAL FORM ══════════════════════════════════════════════════ -->
+<section class="trial" id="trial" aria-labelledby="trial-h2">
+  <div class="section-inner">
+    <div class="trial-layout">
+
+      <!-- Left copy -->
+      <div class="trial-copy">
+        <div class="section-eyebrow">
+          <span class="eyebrow-line" aria-hidden="true"></span>
+          Запис
+        </div>
+        <h2 id="trial-h2">Пробна<br><span class="accent">тренировка</span><br><span class="stroke">безплатно</span></h2>
+        <p>Запиши се за безплатна пробна тренировка. Ще се свържем с теб в рамките на 2 часа за потвърждение.</p>
+
+        <div class="trial-perk">
+          <div class="perk-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          </div>
+          <div class="perk-text">
+            <strong>Без задължение</strong>
+            <span>Пробваш веднъж, решаваш после. Никакъв натиск.</span>
+          </div>
+        </div>
+
+        <div class="trial-perk">
+          <div class="perk-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <div class="perk-text">
+            <strong>Личен треньор включен</strong>
+            <span>Покажем ти залата и правилното изпълнение.</span>
+          </div>
+        </div>
+
+        <div class="trial-perk">
+          <div class="perk-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+          </div>
+          <div class="perk-text">
+            <strong>Потвърждение за 2 часа</strong>
+            <span>Ще се обадим или пишем веднага.</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right form -->
+      <div class="trial-form-wrap">
+        <form id="trialForm" novalidate aria-label="Форма за запис за пробна тренировка">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="firstName">Име<span class="required-star" aria-hidden="true">*</span></label>
+              <input type="text" id="firstName" name="firstName" placeholder="Иван" required autocomplete="given-name">
+            </div>
+            <div class="form-group">
+              <label for="lastName">Фамилия<span class="required-star" aria-hidden="true">*</span></label>
+              <input type="text" id="lastName" name="lastName" placeholder="Иванов" required autocomplete="family-name">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="phone">Телефон<span class="required-star" aria-hidden="true">*</span></label>
+              <input type="tel" id="phone" name="phone" placeholder="+359 88..." required autocomplete="tel">
+            </div>
+            <div class="form-group">
+              <label for="email">Имейл</label>
+              <input type="email" id="email" name="email" placeholder="ivan@gmail.com" autocomplete="email">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="interest">Интерес</label>
+              <select id="interest" name="interest">
+                <option value="" disabled selected>Изберете...</option>
+                <option>Фитнес зала</option>
+                <option>Кардио зона</option>
+                <option>Групови тренировки</option>
+                <option>Личен треньор</option>
+                <option>Все още не знам</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="preferredTime">Предпочитан час</label>
+              <select id="preferredTime" name="preferredTime">
+                <option value="" disabled selected>Изберете...</option>
+                <option>Сутрин (06–10)</option>
+                <option>Обед (10–14)</option>
+                <option>Следобед (14–18)</option>
+                <option>Вечер (18–22)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="message">Допълнително (цели, наранявания)</label>
+            <textarea id="message" name="message" placeholder="По желание — напиши ни нещо за себе си..."></textarea>
+          </div>
+
+          <button type="submit" class="btn-primary form-submit">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+            Запишете ме
+          </button>
+          <p class="form-note">Само ела с удобни дрехи. Без скрити такси.</p>
+        </form>
+
+        <!-- Skill: success feedback — checkmark + brief visual confirmation -->
+        <div class="success-msg" id="successMsg" role="alert" aria-live="polite">
+          <div class="success-icon" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+          </div>
+          <div class="success-title">Записан!</div>
+          <p class="success-sub">Ще се свържем с теб до 2 часа за потвърждение.</p>
+        </div>
       </div>
 
     </div>
   </div>
 </section>
 
-<!-- SCHEDULE -->
-<section class="schedule" id="schedule">
+<!-- ══ LOCATION ════════════════════════════════════════════════════ -->
+<section class="location" id="location" aria-labelledby="location-h2">
   <div class="section-inner">
-    <p class="section-label">Седмична програма</p>
-    <h2>Групови тренировки</h2>
-    <table class="schedule-table">
-      <thead>
-        <tr>
-          <th>Тренировка</th>
-          <th>Ден</th>
-          <th>Час</th>
-          <th>Треньор</th>
-          <th>Тип</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Сутрешна йога</td>
-          <td>Пон / Сря / Пет</td>
-          <td>07:00 – 08:00</td>
-          <td>Мария В.</td>
-          <td><span class="badge badge-yoga">Йога</span></td>
-        </tr>
-        <tr>
-          <td>HIIT — Максимален импулс</td>
-          <td>Вт / Чет</td>
-          <td>07:30 – 08:15</td>
-          <td>Стефан Н.</td>
-          <td><span class="badge badge-hiit">HIIT</span></td>
-        </tr>
-        <tr>
-          <td>Силова функционална</td>
-          <td>Пон / Сря / Пет</td>
-          <td>18:30 – 19:30</td>
-          <td>Димитър Т.</td>
-          <td><span class="badge badge-strength">Сила</span></td>
-        </tr>
-        <tr>
-          <td>Кардио боксинг</td>
-          <td>Вт / Чет</td>
-          <td>19:00 – 20:00</td>
-          <td>Стефан Н.</td>
-          <td><span class="badge badge-cardio">Кардио</span></td>
-        </tr>
-        <tr>
-          <td>Пилатес</td>
-          <td>Сряда</td>
-          <td>10:00 – 11:00</td>
-          <td>Мария В.</td>
-          <td><span class="badge badge-yoga">Йога</span></td>
-        </tr>
-        <tr>
-          <td>Събота — HIIT открито</td>
-          <td>Събота</td>
-          <td>10:00 – 11:00</td>
-          <td>Целия екип</td>
-          <td><span class="badge badge-hiit">HIIT</span></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</section>
-
-<!-- TRIAL BOOKING FORM -->
-<section class="trial" id="trial">
-  <div class="section-inner">
-    <div class="trial-inner">
-      <p class="section-label">Запис</p>
-      <h2>Пробна тренировка — безплатно</h2>
-      <p>Запиши се за безплатна пробна тренировка. Ще се свържем с теб в рамките на 2 часа за потвърждение.</p>
-
-      <form id="trialForm">
-        <div class="form-row">
-          <input type="text" name="firstName" placeholder="Име" required>
-          <input type="text" name="lastName" placeholder="Фамилия" required>
-        </div>
-        <div class="form-row">
-          <input type="tel" name="phone" placeholder="Телефон" required>
-          <input type="email" name="email" placeholder="Имейл (по желание)">
-        </div>
-        <div class="form-row">
-          <select name="interest">
-            <option value="" disabled selected>Интересувам се от...</option>
-            <option>Фитнес зала (свободни тежести)</option>
-            <option>Кардио зона</option>
-            <option>Групови тренировки</option>
-            <option>Личен треньор</option>
-            <option>Все още не знам</option>
-          </select>
-          <select name="preferredTime">
-            <option value="" disabled selected>Предпочитано времe</option>
-            <option>Сутрин (06:00 – 10:00)</option>
-            <option>Обед (10:00 – 14:00)</option>
-            <option>Следобед (14:00 – 18:00)</option>
-            <option>Вечер (18:00 – 22:00)</option>
-          </select>
-        </div>
-        <div class="form-row single">
-          <textarea name="message" placeholder="Допълнителна информация (цели, наранявания и т.н.) — по желание"></textarea>
-        </div>
-        <button type="submit" class="form-submit">Запишете ме →</button>
-        <p class="form-note">Без задължение за покупка. Само ела с удобни дрехи.</p>
-      </form>
-
-      <div class="success-msg" id="successMsg">
-        ✓ Записан! Ще се свържем с теб скоро.
-      </div>
+    <div class="section-eyebrow">
+      <span class="eyebrow-line" aria-hidden="true"></span>
+      Как да ни намериш
     </div>
-  </div>
-</section>
+    <h2 id="location-h2">Локация<br><span class="accent">& часове</span></h2>
 
-<!-- LOCATION -->
-<section class="location" id="location">
-  <div class="section-inner">
-    <p class="section-label">Как да ни намериш</p>
-    <h2>Локация</h2>
     <div class="location-grid">
-      <div class="location-info">
-        <div class="info-row">
-          <div class="info-icon">📍</div>
+      <div>
+        <div class="info-block">
+          <div class="info-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          </div>
           <div>
             <div class="info-label">Адрес</div>
             <div class="info-value">бул. Царица Йоанна 47, вх. Б</div>
-            <div class="info-value muted">кв. Люлин, 1359 София</div>
+            <div class="info-sub">кв. Люлин, 1359 София</div>
           </div>
         </div>
-        <div class="info-row">
-          <div class="info-icon">🕐</div>
+
+        <div class="info-block">
+          <div class="info-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+          </div>
           <div>
             <div class="info-label">Работно време</div>
             <div class="info-value">Пон – Пет: 06:00 – 22:00</div>
-            <div class="info-value muted">Сб – Нд: 08:00 – 20:00</div>
+            <div class="info-sub">Сб – Нд: 08:00 – 20:00</div>
           </div>
         </div>
-        <div class="info-row">
-          <div class="info-icon">📞</div>
+
+        <div class="info-block">
+          <div class="info-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 8.91a16 16 0 0 0 6 6l.81-.81a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7a2 2 0 0 1 1.72 2.03z"/></svg>
+          </div>
           <div>
             <div class="info-label">Телефон</div>
-            <div class="info-value"><a href="tel:+359888123456" style="color:var(--accent);text-decoration:none">+359 888 123 456</a></div>
+            <div class="info-value">
+              <a href="tel:+359888123456" style="color:var(--color-primary);text-decoration:none">+359 888 123 456</a>
+            </div>
           </div>
         </div>
-        <div class="info-row">
-          <div class="info-icon">🚌</div>
+
+        <div class="info-block">
+          <div class="info-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+          </div>
           <div>
             <div class="info-label">Транспорт</div>
-            <div class="info-value muted">Авт. 84, 280 — спирка „Люлин 9-ти блок"<br>Метро — ст. „Люлин" (5 мин. пеш)</div>
-          </div>
-        </div>
-        <div class="info-row">
-          <div class="info-icon">🅿️</div>
-          <div>
-            <div class="info-label">Паркинг</div>
-            <div class="info-value muted">Безплатен паркинг пред сградата</div>
+            <div class="info-sub">Авт. 84, 280 — спирка „Люлин 9-ти блок"</div>
+            <div class="info-sub">Метро — ст. „Люлин" (5 мин. пеш)</div>
           </div>
         </div>
       </div>
 
-      <a class="map-placeholder" href="https://maps.google.com/?q=бул.+Царица+Йоанна+47+Люлин+София" target="_blank" rel="noopener">
-        <span>🗺️</span>
-        <div style="color:var(--mist);font-size:15px;">бул. Царица Йоанна 47</div>
-        <p>Отвори в Google Maps →</p>
+      <a class="map-link" href="https://maps.google.com/?q=бул.+Царица+Йоанна+47+Люлин+София" target="_blank" rel="noopener noreferrer" aria-label="Отвори адреса в Google Maps">
+        <div class="map-icon-wrap" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        </div>
+        <div class="map-address">бул. Царица Йоанна 47, Люлин</div>
+        <div class="map-cta">
+          Отвори в Google Maps
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:inline-block;vertical-align:middle;margin-left:4px"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>
+        </div>
       </a>
     </div>
   </div>
 </section>
 
-<!-- FOOTER -->
+<!-- ══ FOOTER ══════════════════════════════════════════════════════ -->
 <footer>
-  <div>
-    <strong style="color:var(--white);font-family:var(--font-display);font-size:20px;font-weight:800">
-      Fit<span style="color:var(--accent)">Zone</span>
-    </strong>
-    <br>
-    <span>© 2025 FitZone ЕООД · кв. Люлин, София</span>
-  </div>
-  <div style="text-align:right">
-    <a href="tel:+359888123456">+359 888 123 456</a> ·
-    <a href="mailto:info@fitzone.bg">info@fitzone.bg</a>
+  <div class="footer-inner">
+    <div>
+      <a href="#" class="logo" style="font-size:26px" aria-label="FitZone — начало">
+        Fit<span class="logo-accent">Zone</span>
+      </a>
+      <div class="footer-copy" style="margin-top:8px">© 2025 FitZone ЕООД · кв. Люлин, София</div>
+    </div>
+    <div class="footer-contact">
+      <a href="tel:+359888123456">+359 888 123 456</a>
+      <a href="mailto:info@fitzone.bg">info@fitzone.bg</a>
+    </div>
   </div>
 </footer>
 
 <script>
+  // Skill: submit feedback — loading then success/error state
   document.getElementById('trialForm').addEventListener('submit', function(e) {
     e.preventDefault();
-    this.style.display = 'none';
-    document.getElementById('successMsg').style.display = 'block';
+    const btn = this.querySelector('.form-submit');
+    // Skill: disable button during async, show spinner
+    btn.disabled = true;
+    btn.textContent = 'Изпращане...';
+
+    // Simulate async — replace with real fetch in production
+    setTimeout(() => {
+      this.style.display = 'none';
+      const msg = document.getElementById('successMsg');
+      msg.style.display = 'block';
+      // Skill: focus management after submit
+      msg.focus();
+    }, 800);
   });
 </script>
 
