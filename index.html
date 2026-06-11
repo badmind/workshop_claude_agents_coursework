@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FitZone — Фитнес клуб, кв. Люлин, София</title>
+  <meta name="description" content="FitZone е малък фитнес клуб в кв. Люлин, София. Модерна екипировка, персонален подход, достъпни цени. Запишете се за безплатна пробна тренировка.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;800&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    /* ── TOKENS ─────────────────────────────────── */
+    :root {
+      --black:   #0f0f0f;
+      --ink:     #1c1c1c;
+      --steel:   #2a2a2a;
+      --mid:     #555555;
+      --mist:    #a0a0a0;
+      --white:   #f5f4f0;
+      --accent:  #d4f000;   /* electric lime — signature */
+      --accent2: #b8d400;
+      --red:     #e23b2f;
+      --font-display: 'Barlow Condensed', sans-serif;
+      --font-body:    'Inter', sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── NAV ─────────────────────────────────────── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 40px;
+      height: 60px;
+      background: rgba(15,15,15,0.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .logo {
+      font-family: var(--font-display);
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      color: var(--white);
+      text-decoration: none;
+    }
+
+    .logo span { color: var(--accent); }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 32px;
+    }
+
+    nav ul li a {
+      color: var(--mist);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    nav ul li a:hover { color: var(--accent); }
+
+    .nav-cta {
+      background: var(--accent);
+      color: var(--black) !important;
+      padding: 8px 20px;
+      border-radius: 4px;
+      font-weight: 600 !important;
+      transition: background 0.2s !important;
+    }
+
+    .nav-cta:hover { background: var(--accent2) !important; color: var(--black) !important; }
+
+    /* ── HERO ────────────────────────────────────── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 100px 40px 60px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Diagonal grid background — the signature element */
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        repeating-linear-gradient(
+          -55deg,
+          transparent,
+          transparent 48px,
+          rgba(212,240,0,0.04) 48px,
+          rgba(212,240,0,0.04) 49px
+        );
+      pointer-events: none;
+    }
+
+    /* Lime glow blob */
+    .hero::after {
+      content: '';
+      position: absolute;
+      top: -10%;
+      right: -5%;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(212,240,0,0.12) 0%, transparent 65%);
+      pointer-events: none;
+    }
+
+    .hero-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-eyebrow {
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-family: var(--font-display);
+      font-size: clamp(72px, 12vw, 140px);
+      font-weight: 800;
+      line-height: 0.9;
+      letter-spacing: -0.01em;
+      text-transform: uppercase;
+      color: var(--white);
+      margin-bottom: 32px;
+    }
+
+    h1 .accent-line { color: var(--accent); }
+
+    .hero-sub {
+      max-width: 480px;
+      color: var(--mist);
+      font-size: 17px;
+      line-height: 1.65;
+      margin-bottom: 44px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      display: inline-block;
+      background: var(--accent);
+      color: var(--black);
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      padding: 16px 36px;
+      border-radius: 4px;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.15s;
+    }
+
+    .btn-primary:hover { background: var(--accent2); transform: translateY(-1px); }
+
+    .btn-outline {
+      display: inline-block;
+      border: 1px solid rgba(255,255,255,0.25);
+      color: var(--white);
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      padding: 16px 36px;
+      border-radius: 4px;
+      text-decoration: none;
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* Stats strip */
+    .hero-stats {
+      display: flex;
+      gap: 48px;
+      margin-top: 64px;
+      padding-top: 40px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      flex-wrap: wrap;
+    }
+
+    .stat-num {
+      font-family: var(--font-display);
+      font-size: 42px;
+      font-weight: 800;
+      color: var(--white);
+      line-height: 1;
+    }
+
+    .stat-num span { color: var(--accent); }
+    .stat-label { font-size: 13px; color: var(--mist); margin-top: 4px; }
+
+    /* ── SECTION SHARED ──────────────────────────── */
+    section { padding: 96px 40px; }
+    .section-inner { max-width: 1100px; margin: 0 auto; }
+
+    .section-label {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+
+    h2 {
+      font-family: var(--font-display);
+      font-size: clamp(40px, 6vw, 72px);
+      font-weight: 800;
+      text-transform: uppercase;
+      line-height: 0.95;
+      color: var(--white);
+      margin-bottom: 48px;
+    }
+
+    /* ── SERVICES ────────────────────────────────── */
+    .services { background: var(--ink); }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 2px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .service-card {
+      background: var(--ink);
+      padding: 40px 32px;
+      transition: background 0.2s;
+    }
+
+    .service-card:hover { background: var(--steel); }
+
+    .service-icon {
+      font-size: 32px;
+      margin-bottom: 20px;
+      display: block;
+    }
+
+    .service-title {
+      font-family: var(--font-display);
+      font-size: 26px;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--white);
+      margin-bottom: 12px;
+    }
+
+    .service-desc {
+      font-size: 14px;
+      color: var(--mist);
+      line-height: 1.6;
+    }
+
+    /* ── PRICING ─────────────────────────────────── */
+    .pricing { background: var(--black); }
+
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+    }
+
+    .price-card {
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 6px;
+      padding: 36px 28px;
+      position: relative;
+      transition: border-color 0.2s;
+    }
+
+    .price-card:hover { border-color: rgba(212,240,0,0.4); }
+
+    .price-card.featured {
+      border-color: var(--accent);
+      background: rgba(212,240,0,0.04);
+    }
+
+    .featured-tag {
+      position: absolute;
+      top: -12px;
+      left: 24px;
+      background: var(--accent);
+      color: var(--black);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 2px;
+    }
+
+    .price-name {
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--white);
+      margin-bottom: 20px;
+    }
+
+    .price-amount {
+      font-family: var(--font-display);
+      font-size: 52px;
+      font-weight: 800;
+      line-height: 1;
+      color: var(--accent);
+      margin-bottom: 4px;
+    }
+
+    .price-period {
+      font-size: 13px;
+      color: var(--mist);
+      margin-bottom: 28px;
+    }
+
+    .price-features {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .price-features li {
+      font-size: 14px;
+      color: var(--mist);
+      padding-left: 20px;
+      position: relative;
+    }
+
+    .price-features li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-size: 12px;
+    }
+
+    /* ── SCHEDULE ────────────────────────────────── */
+    .schedule { background: var(--ink); }
+
+    .schedule-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+
+    .schedule-table thead th {
+      font-family: var(--font-display);
+      font-size: 16px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--accent);
+      padding: 12px 16px;
+      text-align: left;
+      border-bottom: 1px solid rgba(255,255,255,0.12);
+    }
+
+    .schedule-table tbody tr {
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      transition: background 0.15s;
+    }
+
+    .schedule-table tbody tr:hover { background: rgba(255,255,255,0.04); }
+
+    .schedule-table tbody td {
+      padding: 14px 16px;
+      color: var(--mist);
+      vertical-align: middle;
+    }
+
+    .schedule-table tbody td:first-child {
+      color: var(--white);
+      font-weight: 500;
+      font-size: 15px;
+    }
+
+    .badge {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border-radius: 2px;
+    }
+
+    .badge-cardio  { background: rgba(226,59,47,0.15); color: #e23b2f; }
+    .badge-strength{ background: rgba(212,240,0,0.12); color: var(--accent); }
+    .badge-yoga    { background: rgba(100,160,255,0.12); color: #7eb3ff; }
+    .badge-hiit    { background: rgba(255,165,0,0.12); color: #ffa533; }
+
+    /* ── TRIAL FORM ──────────────────────────────── */
+    .trial { background: var(--black); }
+
+    .trial-inner {
+      max-width: 680px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .trial-inner h2 { margin-bottom: 16px; }
+    .trial-inner p { color: var(--mist); margin-bottom: 40px; }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .form-row.single { grid-template-columns: 1fr; }
+
+    input, select, textarea {
+      width: 100%;
+      background: var(--ink);
+      border: 1px solid rgba(255,255,255,0.12);
+      color: var(--white);
+      font-family: var(--font-body);
+      font-size: 15px;
+      padding: 14px 16px;
+      border-radius: 4px;
+      outline: none;
+      transition: border-color 0.2s;
+      appearance: none;
+    }
+
+    input::placeholder, textarea::placeholder { color: var(--mid); }
+    input:focus, select:focus, textarea:focus { border-color: var(--accent); }
+
+    textarea { resize: vertical; min-height: 100px; }
+
+    .form-submit {
+      margin-top: 16px;
+      width: 100%;
+      background: var(--accent);
+      color: var(--black);
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 18px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+    }
+
+    .form-submit:hover { background: var(--accent2); transform: translateY(-1px); }
+
+    .form-note {
+      font-size: 12px;
+      color: var(--mid);
+      margin-top: 12px;
+    }
+
+    /* ── LOCATION ────────────────────────────────── */
+    .location { background: var(--ink); }
+
+    .location-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: start;
+    }
+
+    .location-info h3 {
+      font-family: var(--font-display);
+      font-size: 28px;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--white);
+      margin-bottom: 24px;
+    }
+
+    .info-row {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 20px;
+      align-items: flex-start;
+    }
+
+    .info-icon { font-size: 20px; flex-shrink: 0; margin-top: 2px; }
+
+    .info-label {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 4px;
+    }
+
+    .info-value { color: var(--white); font-size: 15px; }
+    .info-value.muted { color: var(--mist); }
+
+    .map-placeholder {
+      background: var(--steel);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 6px;
+      height: 320px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 12px;
+      color: var(--mid);
+      font-size: 14px;
+      text-decoration: none;
+      transition: border-color 0.2s;
+    }
+
+    .map-placeholder:hover { border-color: rgba(212,240,0,0.3); }
+    .map-placeholder span { font-size: 40px; }
+    .map-placeholder p { color: var(--accent); font-size: 13px; font-weight: 500; }
+
+    /* ── FOOTER ──────────────────────────────────── */
+    footer {
+      background: var(--black);
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+      color: var(--mid);
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    footer a { color: var(--mist); text-decoration: none; }
+    footer a:hover { color: var(--accent); }
+
+    /* ── SUCCESS MESSAGE ─────────────────────────── */
+    .success-msg {
+      display: none;
+      background: rgba(212,240,0,0.08);
+      border: 1px solid var(--accent);
+      border-radius: 4px;
+      padding: 20px;
+      color: var(--accent);
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 700;
+      text-transform: uppercase;
+      margin-top: 16px;
+    }
+
+    /* ── RESPONSIVE ──────────────────────────────── */
+    @media (max-width: 768px) {
+      nav ul { display: none; }
+      nav { padding: 0 20px; }
+      .hero { padding: 90px 20px 48px; }
+      section { padding: 64px 20px; }
+      .form-row { grid-template-columns: 1fr; }
+      .location-grid { grid-template-columns: 1fr; gap: 40px; }
+      footer { padding: 32px 20px; flex-direction: column; text-align: center; }
+    }
+
+    /* ── REDUCED MOTION ──────────────────────────── */
+    @media (prefers-reduced-motion: reduce) {
+      * { transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="logo">Fit<span>Zone</span></a>
+  <ul>
+    <li><a href="#services">Услуги</a></li>
+    <li><a href="#pricing">Цени</a></li>
+    <li><a href="#schedule">Програма</a></li>
+    <li><a href="#location">Локация</a></li>
+    <li><a href="#trial" class="nav-cta">Пробна тренировка</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-inner">
+    <p class="hero-eyebrow">Фитнес клуб · кв. Люлин, София</p>
+    <h1>
+      Тренирай<br>
+      <span class="accent-line">без</span><br>
+      извинения
+    </h1>
+    <p class="hero-sub">
+      FitZone е малък фитнес клуб с персонален подход. 
+      Без наемни ценоразписи, без анонимност — само ти, 
+      оборудването и треньорите, които те познават по име.
+    </p>
+    <div class="hero-actions">
+      <a href="#trial" class="btn-primary">Безплатна пробна тренировка</a>
+      <a href="#pricing" class="btn-outline">Вижте цените</a>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <div class="stat-num">7<span>г</span></div>
+        <div class="stat-label">Работим в квартала</div>
+      </div>
+      <div>
+        <div class="stat-num">340<span>+</span></div>
+        <div class="stat-label">Активни членове</div>
+      </div>
+      <div>
+        <div class="stat-num">6<span>:</span>00</div>
+        <div class="stat-label">Отваряме рано</div>
+      </div>
+      <div>
+        <div class="stat-num">4<span>★</span></div>
+        <div class="stat-label">Треньори в екипа</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services" id="services">
+  <div class="section-inner">
+    <p class="section-label">Какво предлагаме</p>
+    <h2>Услуги</h2>
+    <div class="services-grid">
+      <div class="service-card">
+        <span class="service-icon">🏋️</span>
+        <div class="service-title">Зала за тежести</div>
+        <p class="service-desc">Пълна свободна зона с щанги, гири и машини. Оборудване Technogym, поддържано с грижа.</p>
+      </div>
+      <div class="service-card">
+        <span class="service-icon">🚴</span>
+        <div class="service-title">Кардио зона</div>
+        <p class="service-desc">10 бягащи пътеки, 8 велоергометри, елиптични машини. Всяко устройство с индивидуален екран.</p>
+      </div>
+      <div class="service-card">
+        <span class="service-icon">👥</span>
+        <div class="service-title">Групови тренировки</div>
+        <p class="service-desc">Йога, пилатес, HIIT и кардио боксинг. До 12 участника на група — без да се губиш в тълпата.</p>
+      </div>
+      <div class="service-card">
+        <span class="service-icon">📋</span>
+        <div class="service-title">Личен треньор</div>
+        <p class="service-desc">Индивидуална програма, измервания и проследяване на напредъка. Първата консултация е безплатна.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing" id="pricing">
+  <div class="section-inner">
+    <p class="section-label">Абонаментни планове</p>
+    <h2>Цени</h2>
+    <div class="pricing-grid">
+
+      <div class="price-card">
+        <div class="price-name">Еднократно</div>
+        <div class="price-amount">10</div>
+        <div class="price-period">лв. / посещение</div>
+        <ul class="price-features">
+          <li>Достъп до фитнес залата</li>
+          <li>Съблекалня и душ</li>
+          <li>Без ангажимент</li>
+        </ul>
+      </div>
+
+      <div class="price-card">
+        <div class="price-name">Месечен</div>
+        <div class="price-amount">55</div>
+        <div class="price-period">лв. / месец</div>
+        <ul class="price-features">
+          <li>Неограничени посещения</li>
+          <li>Достъп до кардио зона</li>
+          <li>Съблекалня и душ</li>
+        </ul>
+      </div>
+
+      <div class="price-card featured">
+        <div class="featured-tag">Най-популярен</div>
+        <div class="price-name">Месечен Plus</div>
+        <div class="price-amount">79</div>
+        <div class="price-period">лв. / месец</div>
+        <ul class="price-features">
+          <li>Всичко от Месечен</li>
+          <li>2 групови тренировки седмично</li>
+          <li>Начална консултация с треньор</li>
+          <li>Проследяване на напредъка</li>
+        </ul>
+      </div>
+
+      <div class="price-card">
+        <div class="price-name">Годишен</div>
+        <div class="price-amount">599</div>
+        <div class="price-period">лв. / година (≈50 лв./мес.)</div>
+        <ul class="price-features">
+          <li>Всичко от Plus</li>
+          <li>Неограничени групови</li>
+          <li>1 безплатна тренировка с ЛТ / мес.</li>
+          <li>Приоритетна резервация</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- SCHEDULE -->
+<section class="schedule" id="schedule">
+  <div class="section-inner">
+    <p class="section-label">Седмична програма</p>
+    <h2>Групови тренировки</h2>
+    <table class="schedule-table">
+      <thead>
+        <tr>
+          <th>Тренировка</th>
+          <th>Ден</th>
+          <th>Час</th>
+          <th>Треньор</th>
+          <th>Тип</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Сутрешна йога</td>
+          <td>Пон / Сря / Пет</td>
+          <td>07:00 – 08:00</td>
+          <td>Мария В.</td>
+          <td><span class="badge badge-yoga">Йога</span></td>
+        </tr>
+        <tr>
+          <td>HIIT — Максимален импулс</td>
+          <td>Вт / Чет</td>
+          <td>07:30 – 08:15</td>
+          <td>Стефан Н.</td>
+          <td><span class="badge badge-hiit">HIIT</span></td>
+        </tr>
+        <tr>
+          <td>Силова функционална</td>
+          <td>Пон / Сря / Пет</td>
+          <td>18:30 – 19:30</td>
+          <td>Димитър Т.</td>
+          <td><span class="badge badge-strength">Сила</span></td>
+        </tr>
+        <tr>
+          <td>Кардио боксинг</td>
+          <td>Вт / Чет</td>
+          <td>19:00 – 20:00</td>
+          <td>Стефан Н.</td>
+          <td><span class="badge badge-cardio">Кардио</span></td>
+        </tr>
+        <tr>
+          <td>Пилатес</td>
+          <td>Сряда</td>
+          <td>10:00 – 11:00</td>
+          <td>Мария В.</td>
+          <td><span class="badge badge-yoga">Йога</span></td>
+        </tr>
+        <tr>
+          <td>Събота — HIIT открито</td>
+          <td>Събота</td>
+          <td>10:00 – 11:00</td>
+          <td>Целия екип</td>
+          <td><span class="badge badge-hiit">HIIT</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- TRIAL BOOKING FORM -->
+<section class="trial" id="trial">
+  <div class="section-inner">
+    <div class="trial-inner">
+      <p class="section-label">Запис</p>
+      <h2>Пробна тренировка — безплатно</h2>
+      <p>Запиши се за безплатна пробна тренировка. Ще се свържем с теб в рамките на 2 часа за потвърждение.</p>
+
+      <form id="trialForm">
+        <div class="form-row">
+          <input type="text" name="firstName" placeholder="Име" required>
+          <input type="text" name="lastName" placeholder="Фамилия" required>
+        </div>
+        <div class="form-row">
+          <input type="tel" name="phone" placeholder="Телефон" required>
+          <input type="email" name="email" placeholder="Имейл (по желание)">
+        </div>
+        <div class="form-row">
+          <select name="interest">
+            <option value="" disabled selected>Интересувам се от...</option>
+            <option>Фитнес зала (свободни тежести)</option>
+            <option>Кардио зона</option>
+            <option>Групови тренировки</option>
+            <option>Личен треньор</option>
+            <option>Все още не знам</option>
+          </select>
+          <select name="preferredTime">
+            <option value="" disabled selected>Предпочитано времe</option>
+            <option>Сутрин (06:00 – 10:00)</option>
+            <option>Обед (10:00 – 14:00)</option>
+            <option>Следобед (14:00 – 18:00)</option>
+            <option>Вечер (18:00 – 22:00)</option>
+          </select>
+        </div>
+        <div class="form-row single">
+          <textarea name="message" placeholder="Допълнителна информация (цели, наранявания и т.н.) — по желание"></textarea>
+        </div>
+        <button type="submit" class="form-submit">Запишете ме →</button>
+        <p class="form-note">Без задължение за покупка. Само ела с удобни дрехи.</p>
+      </form>
+
+      <div class="success-msg" id="successMsg">
+        ✓ Записан! Ще се свържем с теб скоро.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LOCATION -->
+<section class="location" id="location">
+  <div class="section-inner">
+    <p class="section-label">Как да ни намериш</p>
+    <h2>Локация</h2>
+    <div class="location-grid">
+      <div class="location-info">
+        <div class="info-row">
+          <div class="info-icon">📍</div>
+          <div>
+            <div class="info-label">Адрес</div>
+            <div class="info-value">бул. Царица Йоанна 47, вх. Б</div>
+            <div class="info-value muted">кв. Люлин, 1359 София</div>
+          </div>
+        </div>
+        <div class="info-row">
+          <div class="info-icon">🕐</div>
+          <div>
+            <div class="info-label">Работно време</div>
+            <div class="info-value">Пон – Пет: 06:00 – 22:00</div>
+            <div class="info-value muted">Сб – Нд: 08:00 – 20:00</div>
+          </div>
+        </div>
+        <div class="info-row">
+          <div class="info-icon">📞</div>
+          <div>
+            <div class="info-label">Телефон</div>
+            <div class="info-value"><a href="tel:+359888123456" style="color:var(--accent);text-decoration:none">+359 888 123 456</a></div>
+          </div>
+        </div>
+        <div class="info-row">
+          <div class="info-icon">🚌</div>
+          <div>
+            <div class="info-label">Транспорт</div>
+            <div class="info-value muted">Авт. 84, 280 — спирка „Люлин 9-ти блок"<br>Метро — ст. „Люлин" (5 мин. пеш)</div>
+          </div>
+        </div>
+        <div class="info-row">
+          <div class="info-icon">🅿️</div>
+          <div>
+            <div class="info-label">Паркинг</div>
+            <div class="info-value muted">Безплатен паркинг пред сградата</div>
+          </div>
+        </div>
+      </div>
+
+      <a class="map-placeholder" href="https://maps.google.com/?q=бул.+Царица+Йоанна+47+Люлин+София" target="_blank" rel="noopener">
+        <span>🗺️</span>
+        <div style="color:var(--mist);font-size:15px;">бул. Царица Йоанна 47</div>
+        <p>Отвори в Google Maps →</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <strong style="color:var(--white);font-family:var(--font-display);font-size:20px;font-weight:800">
+      Fit<span style="color:var(--accent)">Zone</span>
+    </strong>
+    <br>
+    <span>© 2025 FitZone ЕООД · кв. Люлин, София</span>
+  </div>
+  <div style="text-align:right">
+    <a href="tel:+359888123456">+359 888 123 456</a> ·
+    <a href="mailto:info@fitzone.bg">info@fitzone.bg</a>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('trialForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    this.style.display = 'none';
+    document.getElementById('successMsg').style.display = 'block';
+  });
+</script>
+
+</body>
+</html>
