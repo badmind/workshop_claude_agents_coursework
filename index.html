@@ -204,6 +204,26 @@
       transform: translateY(-1px);
     }
 
+    .nav-doc-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border: 1px solid rgba(249,115,22,0.35);
+      color: var(--color-primary) !important;
+      padding: 7px 14px;
+      border-radius: 4px;
+      font-size: 12px !important;
+      font-weight: 700 !important;
+      letter-spacing: 0.08em;
+      transition: border-color var(--transition), background var(--transition) !important;
+    }
+    .nav-doc-btn::after { display: none !important; }
+    .nav-doc-btn:hover {
+      background: rgba(249,115,22,0.08) !important;
+      border-color: var(--color-primary) !important;
+      color: var(--color-primary) !important;
+    }
+
     /* ══════════════════════
        HERO
        Skill: CTA above fold, Large type 32px+, scroll-snap
@@ -1119,6 +1139,15 @@
     <li><a href="#schedule">Програма</a></li>
     <li><a href="#location">Локация</a></li>
     <li><a href="#trial" class="nav-cta">Пробна тренировка</a></li>
+    <li>
+      <a href="https://github.com/badmind/workshop_claude_agents_coursework/raw/main/Exam-Claude-Webpage.docx"
+         class="nav-doc-btn"
+         download="Exam-Claude-Webpage.docx"
+         aria-label="Свали изпитния документ Word">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+        Изпит DOCX
+      </a>
+    </li>
   </ul>
 </nav>
 
@@ -1564,6 +1593,37 @@
           Отвори в Google Maps
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:inline-block;vertical-align:middle;margin-left:4px"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>
         </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ══ EXAM DOC BANNER ════════════════════════════════════════════ -->
+<section style="background:var(--color-surface);padding:48px var(--section-px);border-top:1px solid var(--color-border)">
+  <div style="max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:24px">
+    <div>
+      <div style="font-family:var(--font-display);font-size:11px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--color-primary);margin-bottom:8px">
+        Курсова работа
+      </div>
+      <div style="font-family:var(--font-display);font-size:28px;font-weight:900;text-transform:uppercase;color:var(--color-foreground);line-height:1">
+        Exam-Claude-Webpage.docx
+      </div>
+      <div style="font-size:13px;color:var(--color-muted);margin-top:6px">
+        Workshop: Claude Agents for Efficient Work · Редовен изпит юни 2025
+      </div>
+    </div>
+    <div style="display:flex;gap:12px;flex-wrap:wrap">
+      <a href="https://github.com/badmind/workshop_claude_agents_coursework/raw/main/Exam-Claude-Webpage.docx"
+         download="Exam-Claude-Webpage.docx"
+         style="display:inline-flex;align-items:center;gap:8px;background:var(--color-primary);color:var(--color-on-primary);font-family:var(--font-display);font-size:16px;font-weight:800;text-transform:uppercase;letter-spacing:0.06em;padding:14px 28px;border-radius:4px;text-decoration:none;transition:background 200ms">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Свали DOCX
+      </a>
+      <a href="https://github.com/badmind/workshop_claude_agents_coursework/blob/main/Exam-Claude-Webpage.docx"
+         target="_blank" rel="noopener noreferrer"
+         style="display:inline-flex;align-items:center;gap:8px;border:1px solid var(--color-border);color:var(--color-foreground);font-family:var(--font-display);font-size:16px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;padding:13px 28px;border-radius:4px;text-decoration:none;transition:border-color 200ms,color 200ms">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        Виж в GitHub
       </a>
     </div>
   </div>
