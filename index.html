@@ -1575,6 +1575,9 @@
       .star-val { font-size: 15px; }
     }
   </style>
+  <!-- EmailJS SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script>emailjs.init("oJEx74QOC1EesspAr");</script>
 </head>
 <body>
 
@@ -2343,47 +2346,53 @@
       return;
     }
 
-    const comment = document.getElementById('rateComment').value;
-    const ccEmail = document.getElementById('rateCcEmail').value;
-    const gradeEmojis = {'2':'😐','3':'🙂','4':'😊','5':'🤩','6':'🏆'};
+    const comment   = document.getElementById('rateComment').value.trim();
+    const ccEmail   = document.getElementById('rateCcEmail').value.trim();
+    const gradeEmojis  = {'2':'😐','3':'🙂','4':'😊','5':'🤩','6':'🏆'};
+    const gradeLabels  = {'2':'Слаб','3':'Среден','4':'Добър','5':'Отличен','6':'Отличен+'};
 
     const btn = document.getElementById('rateSubmitBtn');
     btn.disabled = true;
 
-    // Launch flying letters
+    // Flying letters animation
     launchLetters(btn);
 
-    // Email body
-    const subject = `FitZone Курсова работа — Оценка ${selectedGrade}/6 от проверяващ`;
-    const gradeLabels = {'2':'Слаб','3':'Среден','4':'Добър','5':'Отличен','6':'Отличен+'};
-    let bodyText = 'Здравейте, Божидар!\n\n';
-    bodyText += 'Получавате тази оценка за вашата курсова работа по "Workshop: Claude Agents for Efficient Work".\n\n';
-    bodyText += '====================================\n';
-    bodyText += '  ОЦЕНКА: ' + selectedGrade + '/6 — ' + gradeLabels[selectedGrade] + ' ' + gradeEmojis[selectedGrade] + '\n';
-    bodyText += '====================================\n';
-    if (comment) { bodyText += '\nКоментар:\n' + comment + '\n'; }
-    bodyText += '\nСтраница: https://badmind.github.io/workshop_claude_agents_coursework/\n\n';
-    bodyText += '— Изпратено чрез формата за оценяване на страницата';
-    if (ccEmail) { bodyText += '\n— Копие изпратено на: ' + ccEmail; }
+    // Progress: подготовка
+    const bar  = document.getElementById('sendProgress');
+    const fill = document.getElementById('progressFill');
+    const txt  = document.getElementById('progressText');
+    bar.classList.add('active');
 
-    // Run animated progress
-    await runProgress([
-      { pct: 20, msg: 'Подготвяне на имейла...', ms: 600 },
-      { pct: 50, msg: 'Форматиране на оценката...', ms: 600 },
-      { pct: 75, msg: 'Изпращане...', ms: 700 },
-      { pct: 100, msg: 'Готово!', ms: 400 },
-    ]);
+    fill.style.width = '20%'; txt.textContent = 'Подготвяне на имейла...';
+    await new Promise(r => setTimeout(r, 500));
+    fill.style.width = '45%'; txt.textContent = 'Форматиране на оценката...';
+    await new Promise(r => setTimeout(r, 500));
+    fill.style.width = '70%'; txt.textContent = 'Изпращане чрез EmailJS...';
 
-    // Open mailto
-    const to = 'pachovski@gmail.com';
-    const cc = ccEmail ? `&cc=${encodeURIComponent(ccEmail)}` : '';
-    window.location.href = `mailto:${to}?subject=${encodeURIComponent(subject)}${cc}&body=${encodeURIComponent(bodyText)}`;
+    // EmailJS send
+    const templateParams = {
+      grade:       selectedGrade,
+      grade_label: gradeLabels[selectedGrade],
+      grade_emoji: gradeEmojis[selectedGrade],
+      comment:     comment || '—',
+      from_name:   'Проверяващ',
+      reply_to:    ccEmail || 'noreply@fitzone.bg',
+      cc_email:    ccEmail || '',
+    };
 
-    // Show success
-    setTimeout(() => {
+    try {
+      await emailjs.send('service_0bdu17s', 'template_i7idtwm', templateParams);
+      fill.style.width = '100%'; txt.textContent = 'Изпратено успешно!';
+      await new Promise(r => setTimeout(r, 400));
       document.getElementById('rateFormWrap').style.display = 'none';
       document.getElementById('rateSuccess').classList.add('active');
-    }, 600);
+    } catch (err) {
+      fill.style.width = '100%';
+      fill.style.background = '#ef4444';
+      txt.textContent = 'Грешка при изпращане. Опитайте отново.';
+      console.error('EmailJS error:', err);
+      btn.disabled = false;
+    }
   }
 </script>
 
