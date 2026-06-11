@@ -1119,10 +1119,174 @@
       footer .footer-inner { flex-direction: column; text-align: center; }
     }
 
-    @media (max-width: 375px) {
-      h1 { font-size: 52px; }
-      h2 { font-size: 36px; }
-      .hero-stats { grid-template-columns: 1fr; }
+    /* ══ HAMBURGER MENU ══ */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      width: 44px;
+      height: 44px;
+      background: none;
+      border: 1px solid rgba(249,115,22,0.3);
+      border-radius: 4px;
+      padding: 10px;
+      cursor: pointer;
+    }
+
+    .hamburger span {
+      display: block;
+      width: 100%;
+      height: 2px;
+      background: var(--color-foreground);
+      border-radius: 2px;
+      transition: transform 0.25s ease, opacity 0.25s ease;
+      transform-origin: center;
+    }
+
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* Mobile drawer */
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: 64px; left: 0; right: 0;
+      background: rgba(15,23,42,0.98);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(249,115,22,0.2);
+      padding: 16px 20px 24px;
+      z-index: 99;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .mobile-menu.open { display: flex; }
+
+    .mobile-menu a {
+      display: block;
+      color: var(--color-muted);
+      text-decoration: none;
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 12px 8px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      transition: color var(--transition);
+    }
+
+    .mobile-menu a:hover,
+    .mobile-menu a:focus { color: var(--color-foreground); }
+
+    .mobile-menu .mob-cta {
+      margin-top: 12px;
+      background: var(--color-accent);
+      color: var(--color-on-accent) !important;
+      border-radius: 4px;
+      text-align: center;
+      border-bottom: none;
+      padding: 14px;
+    }
+
+    .mobile-menu .mob-doc {
+      color: var(--color-primary) !important;
+      border-bottom: none;
+      font-size: 15px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 8px;
+    }
+
+    /* ══ RESPONSIVE 1024px ══ */
+    @media (max-width: 1024px) {
+      .services-grid  { grid-template-columns: repeat(2, 1fr); }
+      .pricing-grid   { grid-template-columns: repeat(2, 1fr); }
+      .schedule-grid  { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    /* ══ RESPONSIVE 768px ══ */
+    @media (max-width: 768px) {
+      :root {
+        --block-gap: 48px;
+        --section-px: 16px;
+      }
+
+      /* Nav */
+      nav ul { display: none; }
+      nav { padding: 0 16px; }
+      .hamburger { display: flex; }
+
+      /* Hero */
+      .hero { padding: 88px 16px 48px; min-height: auto; }
+      .hero-inner { grid-template-columns: 1fr; gap: 36px; }
+      .hero-badge { font-size: 11px; padding: 5px 12px; }
+      .hero-sub { font-size: 15px; }
+      .hero-actions { flex-direction: column; }
+      .hero-actions a { width: 100%; text-align: center; justify-content: center; }
+      .hero-stats { grid-template-columns: repeat(2, 1fr); }
+      .stat-num { font-size: 36px; }
+
+      /* Exam banner */
+      .exam-banner-inner { flex-direction: column !important; gap: 14px !important; }
+      .exam-banner-btns { flex-direction: column !important; width: 100%; }
+      .exam-banner-btns a { width: 100% !important; justify-content: center !important; }
+
+      /* Sections */
+      .services-grid  { grid-template-columns: 1fr; }
+      .pricing-grid   { grid-template-columns: 1fr; }
+      .schedule-grid  { grid-template-columns: 1fr; }
+      .services-header { flex-direction: column; align-items: flex-start; gap: 16px; }
+
+      /* Service cards */
+      .service-card { padding: 28px 20px; }
+      .service-icon { width: 36px; height: 36px; margin-bottom: 16px; }
+
+      /* Price cards */
+      .price-card { padding: 28px 20px; }
+      .price-amount { font-size: 48px; }
+      .pricing-grid { margin-top: 36px; }
+
+      /* Schedule */
+      .schedule-grid { margin-top: 36px; }
+
+      /* Trial */
+      .trial-layout { grid-template-columns: 1fr; gap: 32px; }
+      .trial-copy p { font-size: 15px; }
+      .trial-perk { gap: 12px; }
+
+      /* Form */
+      .form-row { grid-template-columns: 1fr; }
+      .form-submit { font-size: 18px; }
+
+      /* Location */
+      .location-grid { grid-template-columns: 1fr; gap: 32px; margin-top: 36px; }
+
+      /* Footer */
+      footer { padding: 32px 16px; }
+      footer .footer-inner { flex-direction: column; text-align: center; gap: 16px; }
+      .footer-contact { justify-content: center; }
+    }
+
+    /* ══ RESPONSIVE 480px ══ */
+    @media (max-width: 480px) {
+      h1 { font-size: clamp(44px, 13vw, 64px); }
+      h2 { font-size: clamp(32px, 9vw, 48px); }
+
+      .hero-stats { grid-template-columns: repeat(2, 1fr); }
+      .stat-block { padding: 18px 14px; }
+      .stat-num { font-size: 32px; }
+      .stat-num sup { font-size: 18px; }
+
+      .price-amount { font-size: 42px; }
+      .price-currency { font-size: 22px; }
+
+      .btn-primary,
+      .btn-outline { font-size: 16px; padding: 13px 24px; }
     }
   </style>
 </head>
@@ -1149,7 +1313,28 @@
       </a>
     </li>
   </ul>
+
+  <!-- Hamburger button — visible only on mobile -->
+  <button class="hamburger" id="hamburger" aria-label="Отвори меню" aria-expanded="false" aria-controls="mobileMenu">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
 </nav>
+
+<!-- Mobile drawer menu -->
+<div class="mobile-menu" id="mobileMenu" role="dialog" aria-label="Мобилно меню">
+  <a href="#services" class="mob-link">Услуги</a>
+  <a href="#pricing"  class="mob-link">Цени</a>
+  <a href="#schedule" class="mob-link">Програма</a>
+  <a href="#location" class="mob-link">Локация</a>
+  <a href="https://github.com/badmind/workshop_claude_agents_coursework/raw/main/Exam-Claude-Webpage.docx"
+     download="Exam-Claude-Webpage.docx" class="mob-doc">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+    Изпит DOCX
+  </a>
+  <a href="#trial" class="mob-cta">Пробна тренировка →</a>
+</div>
 
 <!-- ══ HERO ════════════════════════════════════════════════════════= -->
 <section class="hero" id="home" aria-labelledby="hero-h1">
@@ -1211,7 +1396,7 @@
 
 <!-- ══ EXAM DOC BANNER ════════════════════════════════════════════ -->
 <div style="background:#1a0a00;border-top:3px solid var(--color-primary);border-bottom:1px solid rgba(249,115,22,0.2);padding:20px var(--section-px)">
-  <div style="max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px">
+  <div class="exam-banner-inner" style="max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px">
     <div style="display:flex;align-items:center;gap:14px">
       <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#F97316" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
       <div>
@@ -1223,7 +1408,7 @@
         </div>
       </div>
     </div>
-    <div style="display:flex;gap:10px;flex-wrap:wrap">
+    <div class="exam-banner-btns" style="display:flex;gap:10px;flex-wrap:wrap">
       <a href="https://github.com/badmind/workshop_claude_agents_coursework/raw/main/Exam-Claude-Webpage.docx"
          download="Exam-Claude-Webpage.docx"
          style="display:inline-flex;align-items:center;gap:7px;background:var(--color-primary);color:#0F172A;font-family:var(--font-display);font-size:14px;font-weight:800;text-transform:uppercase;letter-spacing:0.06em;padding:10px 22px;border-radius:4px;text-decoration:none">
@@ -1656,23 +1841,52 @@
 </footer>
 
 <script>
-  // Skill: submit feedback — loading then success/error state
+  // ── Form submit feedback
   document.getElementById('trialForm').addEventListener('submit', function(e) {
     e.preventDefault();
     const btn = this.querySelector('.form-submit');
-    // Skill: disable button during async, show spinner
     btn.disabled = true;
     btn.textContent = 'Изпращане...';
-
-    // Simulate async — replace with real fetch in production
     setTimeout(() => {
       this.style.display = 'none';
       const msg = document.getElementById('successMsg');
       msg.style.display = 'block';
-      // Skill: focus management after submit
       msg.focus();
     }, 800);
   });
+
+  // ── Hamburger menu
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+
+  hamburger.addEventListener('click', () => {
+    const isOpen = mobileMenu.classList.toggle('open');
+    hamburger.classList.toggle('open', isOpen);
+    hamburger.setAttribute('aria-expanded', isOpen);
+    document.body.style.overflow = isOpen ? 'hidden' : '';
+  });
+
+  // Close menu when any mobile link is clicked
+  mobileMenu.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      mobileMenu.classList.remove('open');
+      hamburger.classList.remove('open');
+      hamburger.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    });
+  });
+
+  // Close on outside tap
+  document.addEventListener('click', (e) => {
+    if (!nav.contains(e.target) && !mobileMenu.contains(e.target)) {
+      mobileMenu.classList.remove('open');
+      hamburger.classList.remove('open');
+      hamburger.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    }
+  });
+
+  const nav = document.querySelector('nav');
 </script>
 
 </body>
