@@ -309,8 +309,6 @@
       text-transform: uppercase;
       color: var(--color-foreground);
       margin-bottom: 32px;
-      word-break: break-word;
-      overflow-wrap: break-word;
     }
 
     h1 .line-orange { color: var(--color-primary); }
@@ -1231,6 +1229,7 @@
         font-size: clamp(42px, 12vw, 72px);
         word-break: break-word;
         overflow-wrap: break-word;
+        hyphens: auto;
       }
       .hero-sub { font-size: 15px; }
       .hero-actions { flex-direction: column; }
